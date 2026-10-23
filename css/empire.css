@@ -1841,6 +1841,7 @@ button.emp-file { padding: 0; font: inherit; color: inherit; text-align: left; c
     background: #ffffff;
     box-shadow: 0 1px 4px rgba(62, 77, 112, 0.25);
 }
+.emp-preview__page [hidden] { display: none !important; }
 .emp-preview__zoom {
     position: relative;
     flex: 0 0 auto;
