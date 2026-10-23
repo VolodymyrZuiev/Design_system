@@ -1,0 +1,144 @@
+/* Catalog chrome for the Design page. Parent components live in empire.css. */
+
+.ds-shell { margin-left: var(--x32); padding: var(--x12) var(--x8) var(--x20); }
+
+.ds-index {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: var(--x4);
+    margin: 0 0 var(--x12);
+    padding: var(--x4);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--x4);
+}
+.ds-index__group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--x2);
+}
+.ds-index__label {
+    margin: 0 var(--x2) 0 0;
+    font-size: 11px;
+    line-height: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-disabled);
+}
+.ds-index__links { display: flex; flex-wrap: wrap; gap: var(--x); }
+.ds-index a {
+    display: block;
+    padding: var(--x2) var(--x4);
+    border-radius: var(--x3);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: var(--x6);
+    font-weight: 500;
+}
+.ds-index a:hover { background: var(--bg); color: var(--text); }
+.ds-index a.is-current {
+    background: var(--bg);
+    color: var(--text);
+    box-shadow: inset 0 -2px 0 var(--primary);
+}
+
+.ds-intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--x8);
+    margin-bottom: var(--x12);
+}
+.ds-intro__copy { max-width: 760px; }
+.ds-intro h1 { margin: 0 0 var(--x4); font-size: 28px; line-height: 36px; font-weight: 600; letter-spacing: 0; }
+.ds-intro p { margin: 0; color: var(--text-secondary); }
+.ds-intro__theme {
+    display: flex;
+    align-items: center;
+    gap: var(--x4);
+    flex: 0 0 auto;
+    color: var(--text-secondary);
+    font-size: var(--x6);
+    line-height: var(--x8);
+}
+
+.ds-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--x4);
+    padding: var(--x12);
+    margin-bottom: var(--x8);
+}
+
+.ds-section h2 { margin: 0; font-size: var(--x10); line-height: 28px; font-weight: 600; }
+.ds-section__head { display: flex; justify-content: space-between; gap: var(--x8); align-items: baseline; margin-bottom: var(--x8); flex-wrap: wrap; }
+.ds-section__head p { margin: 0; color: var(--text-secondary); font-size: var(--x6); }
+.ds-section code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    color: var(--primary);
+    background: var(--primary-soft);
+    border-radius: var(--x2);
+    padding: 0 var(--x2);
+}
+
+.ds-block { margin-top: var(--x10); }
+.ds-block h3 { margin: 0 0 var(--x6); font-size: var(--x7); line-height: var(--x10); font-weight: 600; color: var(--text-secondary); }
+
+.ds-row { display: flex; flex-wrap: wrap; gap: var(--x6); align-items: flex-end; }
+.ds-stack { display: flex; flex-direction: column; gap: var(--x6); }
+#field-check { align-items: flex-start; }
+.ds-fields { display: flex; flex-wrap: wrap; gap: var(--x12); align-items: flex-start; }
+
+.ds-specimen { display: flex; flex-direction: column; gap: var(--x3); min-width: 120px; }
+.ds-specimen > span,
+.ds-caption {
+    font-size: 11px;
+    line-height: 14px;
+    color: var(--text-disabled);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.ds-live {
+    padding: var(--x8);
+    border-radius: var(--x3);
+    background: var(--surface-muted);
+    border: 1px dashed var(--border);
+}
+
+.ds-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--x6);
+}
+
+.ds-tabs-frozen { margin-bottom: var(--x8); }
+.ds-tips {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: 120px 160px;
+    justify-content: center;
+    padding: 100px 24px;
+}
+#info .ds-stack { max-width: 608px; }
+#accordion .ds-row { margin-top: var(--x8); }
+#upload .ds-specimen { width: 100%; min-width: 0; }
+#date .ds-specimen { width: 100%; min-width: 0; }
+#info .ds-specimen { width: 100%; min-width: 0; }
+#checks .col-md-6 + .col-md-6 .emp-check,
+#checks .col-md-6 + .col-md-6 .emp-radio { pointer-events: none; }
+
+@media (max-width: 767px) {
+    .ds-cards { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 991px) {
+    .ds-index { position: static; }
+}

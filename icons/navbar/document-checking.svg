@@ -1,0 +1,9 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Document checking">
+<g id="Union">
+<path d="M6 0H18C19.6569 0 21 1.34315 21 3V13.5H3V3C3 1.34314 4.34315 0 6 0Z" fill="#3C84C2"/>
+<path d="M3 18H21V21C21 22.6569 19.6569 24 18 24H6C4.34315 24 3 22.6569 3 21V18Z" fill="#3C84C2"/>
+<path d="M0.75 15C0.335786 15 0 15.3358 0 15.75C0 16.1642 0.335786 16.5 0.75 16.5H23.25C23.6642 16.5 24 16.1642 24 15.75C24 15.3358 23.6642 15 23.25 15H0.75Z" fill="#3C84C2"/>
+</g>
+</g>
+</svg>
