@@ -543,6 +543,10 @@ textarea { font-family: inherit; }
     cursor: pointer;
 }
 
+.emp-navitem[hidden] {
+    display: none;
+}
+
 .emp-navitem:hover,
 .emp-navitem:focus,
 .emp-navitem.is-hover {
@@ -1694,7 +1698,27 @@ button.emp-page:hover,
     padding: 16px;
     background: rgba(16, 17, 18, 0.45);
 }
-.emp-overlay.is-open { display: flex; }
+.emp-overlay.is-open {
+    display: flex;
+    animation: emp-overlay-in 0.2s ease;
+}
+.emp-overlay.is-open .emp-mw,
+.emp-overlay.is-open .emp-preview {
+    animation: emp-mw-in 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes emp-overlay-in {
+    from { background-color: rgba(16, 17, 18, 0); }
+    to { background-color: rgba(16, 17, 18, 0.45); }
+}
+@keyframes emp-mw-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .emp-overlay.is-open,
+    .emp-overlay.is-open .emp-mw,
+    .emp-overlay.is-open .emp-preview { animation: none; }
+}
 .emp-mw,
 .emp-preview {
     display: flex;

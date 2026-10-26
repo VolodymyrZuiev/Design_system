@@ -73,10 +73,13 @@
             menu.classList.remove("is-open");
         });
     }
-    function paintNameState() {
+    function paintNameState(showError) {
         var empty = !field("name").value.trim();
-        nameField.classList.toggle("is-error", empty);
-        nameField.classList.toggle("is-required", empty);
+        var invalid = !!showError && empty;
+        nameField.classList.toggle("is-error", invalid);
+        nameField.classList.toggle("is-required", invalid);
+        var help = nameField.querySelector(".emp-field__help");
+        if (help) help.textContent = invalid ? "This field is required" : "";
     }
     function fillForm(row) {
         field("name").value = row ? cell(row, "name") : "";
@@ -91,7 +94,7 @@
         field("phone").value = row ? cell(row, "phone") : "";
         field("cell").value = row ? (row.getAttribute("data-cell") || "") : "";
         field("note").value = row ? (row.getAttribute("data-note") || "") : "";
-        paintNameState();
+        paintNameState(false);
     }
     function readForm(row) {
         setCell(row, "name", field("name").value.trim());
@@ -132,12 +135,15 @@
         open(formOverlay);
     });
 
-    field("name").addEventListener("input", paintNameState);
+    field("name").addEventListener("input", function () {
+        if (field("name").value.trim()) paintNameState(false);
+        else if (nameField.classList.contains("is-error")) paintNameState(true);
+    });
 
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         if (!field("name").value.trim()) {
-            paintNameState();
+            paintNameState(true);
             field("name").focus();
             return;
         }
@@ -198,7 +204,68 @@
         }
     });
 
+    var pageSize = document.getElementById("wh-page-size");
+    var pageSizeValue = document.getElementById("wh-page-size-value");
+    var pageRange = document.getElementById("wh-range");
+    var pageSizeBtn = pageSize.querySelector(".emp-input__chevron-btn");
+
+    function setPageSizeOpen(open) {
+        pageSize.classList.toggle("is-open", open);
+        pageSizeBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+
+    pageSize.addEventListener("click", function (event) {
+        var item = event.target.closest("[data-size]");
+        if (item) {
+            var size = item.getAttribute("data-size");
+            pageSizeValue.value = size;
+            pageRange.textContent = "1-" + size;
+            pageSize.querySelectorAll(".emp-drop__item").forEach(function (entry) {
+                entry.classList.toggle("is-selected", entry === item);
+            });
+            setPageSizeOpen(false);
+            return;
+        }
+        setPageSizeOpen(!pageSize.classList.contains("is-open"));
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!pageSize.contains(event.target)) setPageSizeOpen(false);
+    });
+
+    document.querySelector(".wh-view").addEventListener("click", function (event) {
+        var button = event.target.closest(".wh-copy");
+        if (!button) return;
+        var value = button.parentNode.querySelector("span").textContent.trim();
+        function copied() { window.empToast("copied"); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(value).then(copied, function () {
+                fallbackCopy(value);
+                copied();
+            });
+            return;
+        }
+        fallbackCopy(value);
+        copied();
+    });
+
+    function fallbackCopy(value) {
+        var area = document.createElement("textarea");
+        area.value = value;
+        area.setAttribute("readonly", "");
+        area.className = "emp-copy-sink";
+        document.body.appendChild(area);
+        area.select();
+        try { document.execCommand("copy"); } catch (error) { /* clipboard blocked */ }
+        area.remove();
+    }
+
     document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape") closeAll();
+        if (event.key !== "Escape") return;
+        if (pageSize.classList.contains("is-open")) {
+            setPageSizeOpen(false);
+            return;
+        }
+        closeAll();
     });
 })();

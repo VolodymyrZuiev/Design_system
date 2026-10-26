@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in — Empire</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@400;500;600&family=Noto+Sans:wdth,wght@87.5,700;100,400;100,500;100,600;100,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/empire.css?v=click36">
+    <link rel="stylesheet" href="css/login.css?v=lg1">
+</head>
+<body>
+    <div class="login-bg" aria-hidden="true">
+        <div class="login-bg__art">
+            <img class="login-bg__mark login-bg__mark--word" src="icons/login/wordmark.svg" width="561.333" height="291.373" alt="">
+            <img class="login-bg__mark login-bg__mark--a" src="icons/login/mark-a.svg" width="263.128" height="287.226" alt="">
+            <img class="login-bg__mark login-bg__mark--b" src="icons/login/mark-b.svg" width="181.805" height="198.456" alt="">
+            <img class="login-bg__mark login-bg__mark--c" src="icons/login/mark-c.svg" width="426.466" height="465.524" alt="">
+        </div>
+        <div class="login-bg__veil"></div>
+    </div>
+    <main class="login-stage">
+        <form class="emp-mw emp-mw--sm login-card" id="login-form" autocomplete="on">
+            <div class="emp-mw__head">
+                <h1 class="emp-mw__title">Log in</h1>
+            </div>
+            <div class="emp-mw__body">
+                <div class="login-form">
+                    <p class="login-lead">Sign in to start your session</p>
+                    <div class="emp-field">
+                        <div class="emp-field__title"><span class="emp-field__label">Username</span></div>
+                        <div class="emp-input">
+                            <input class="emp-input__control" type="text" name="username" placeholder="Enter username" autocomplete="username">
+                        </div>
+                    </div>
+                    <div class="emp-field">
+                        <div class="emp-field__title"><span class="emp-field__label">Password</span></div>
+                        <div class="emp-input">
+                            <input class="emp-input__control" id="login-password" type="password" name="password" placeholder="Enter password" autocomplete="current-password">
+                            <button class="emp-input__chevron-btn" id="login-eye" type="button" aria-label="Show password" aria-pressed="false">
+                                <img src="icons/login/eye.svg" width="20" height="20" alt="">
+                            </button>
+                        </div>
+                    </div>
+                    <label class="emp-toggle">
+                        <input class="emp-toggle__input" type="checkbox" name="remember">
+                        <span class="emp-toggle__track"></span>
+                        <span>Remember me</span>
+                    </label>
+                </div>
+            </div>
+            <div class="emp-mw__foot">
+                <button class="emp-btn emp-btn--primary emp-btn--lg emp-mw__submit" type="submit">
+                    <span class="emp-btn__label">Sign in</span>
+                </button>
+            </div>
+        </form>
+    </main>
+    <script src="js/login.js?v=lg1"></script>
+</body>
+</html>

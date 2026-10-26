@@ -1,0 +1,96 @@
+/* Login screen layout. Component chrome stays in empire.css. */
+
+.login-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    background: linear-gradient(90deg, #5da3da 0%, #1c73b7 99.926%);
+}
+
+.login-bg__art {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 1920px;
+    height: 1080px;
+    transform: translate(-50%, -50%);
+}
+
+.login-bg__mark {
+    position: absolute;
+    display: block;
+    max-width: none;
+}
+
+.login-bg__mark--word {
+    left: 59.98px;
+    top: 68.01px;
+    width: 561.333px;
+    height: 291.373px;
+}
+
+.login-bg__mark--a {
+    left: 293.33px;
+    top: 700.32px;
+    width: 263.128px;
+    height: 287.226px;
+}
+
+.login-bg__mark--b {
+    left: 708.84px;
+    top: 252.8px;
+    width: 181.805px;
+    height: 198.456px;
+}
+
+.login-bg__mark--c {
+    left: 1095.63px;
+    top: 78.95px;
+    width: 426.466px;
+    height: 465.524px;
+}
+
+.login-bg__veil {
+    position: absolute;
+    inset: 0;
+    background: rgba(24, 24, 24, 0.5);
+    backdrop-filter: blur(2.5px);
+}
+
+.login-stage {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--x8);
+}
+
+.login-card .emp-mw__body { overflow: visible; }
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--x7);
+    width: 100%;
+}
+
+.login-lead {
+    margin: 0;
+    color: #404040;
+    font-family: "Noto Sans", sans-serif;
+    font-size: 18px;
+    line-height: var(--x12);
+    font-weight: 600;
+}
+
+.login-card .emp-field { width: 100%; }
+
+.login-card .emp-input__chevron-btn img {
+    display: block;
+    width: 20px;
+    height: 20px;
+    max-width: none;
+}

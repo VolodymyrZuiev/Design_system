@@ -728,6 +728,72 @@
         });
     });
 
+    document.querySelectorAll("[data-emp-options]").forEach(function (input) {
+        if (input.closest(".emp-combo")) return;
+        var field = input.closest(".emp-field");
+        var box = input.closest(".emp-input");
+        if (!field || !box) return;
+        var combo = document.createElement("div");
+        combo.className = "emp-combo";
+        field.parentNode.insertBefore(combo, field);
+        combo.appendChild(field);
+        var anchor = document.createElement("div");
+        anchor.className = "emp-combo__anchor";
+        box.parentNode.insertBefore(anchor, box);
+        anchor.appendChild(box);
+        var chevron = box.querySelector(".emp-input__chevron");
+        if (chevron && !chevron.closest("button")) {
+            var button = document.createElement("button");
+            button.type = "button";
+            button.className = "emp-input__chevron-btn";
+            button.setAttribute("aria-label", "Open list");
+            button.setAttribute("aria-expanded", "false");
+            chevron.parentNode.insertBefore(button, chevron);
+            button.appendChild(chevron);
+        }
+        var drop = document.createElement("div");
+        drop.className = "emp-drop";
+        input.getAttribute("data-emp-options").split("|").forEach(function (label) {
+            var item = document.createElement("button");
+            item.type = "button";
+            item.className = "emp-drop__item";
+            item.textContent = label;
+            drop.appendChild(item);
+        });
+        anchor.appendChild(drop);
+        var opener = combo.querySelector(".emp-input__chevron-btn");
+        function openList() {
+            closeCombos(combo);
+            drop.querySelectorAll(".emp-drop__item").forEach(function (item) { item.hidden = false; });
+            setComboOpen(combo, true);
+        }
+        if (opener) {
+            opener.addEventListener("mousedown", function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                if (combo.classList.contains("is-open")) setComboOpen(combo, false);
+                else openList();
+            });
+        }
+        input.addEventListener("focus", openList);
+        input.addEventListener("input", function () {
+            if (input.readOnly || !combo.classList.contains("is-open")) return;
+            var query = input.value.trim().toLowerCase();
+            drop.querySelectorAll(".emp-drop__item").forEach(function (item) {
+                item.hidden = query !== "" && item.textContent.toLowerCase().indexOf(query) === -1;
+            });
+        });
+        combo.addEventListener("mousedown", function (event) { event.stopPropagation(); });
+        drop.addEventListener("mousedown", function (event) {
+            var item = event.target.closest(".emp-drop__item");
+            if (!item) return;
+            event.preventDefault();
+            input.value = item.textContent;
+            setComboOpen(combo, false);
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+        });
+    });
+
     document.addEventListener("mousedown", function (event) {
         var node = event.target && event.target.nodeType === 1 ? event.target : event.target && event.target.parentElement;
         if (!node || !node.closest(".emp-combo")) closeCombos(null);
@@ -838,7 +904,7 @@
 
     var mw = document.querySelector("#mw-overlay .emp-mw");
     var mwOverlay = document.getElementById("mw-overlay");
-    var mwSlot = mw.querySelector("[data-mw-slot]");
+    var mwSlot = mw && mw.querySelector("[data-mw-slot]");
     function syncMw() {
         if (!mwSlot) return;
         var over = mwSlot.scrollHeight - mwSlot.clientHeight > 1;
@@ -1084,18 +1150,20 @@
             paintPreview(card.getAttribute("data-file"), previewRoot.getAttribute("data-panel"));
         });
     }
-    document.addEventListener("click", function (event) {
-        var card = event.target.closest(".emp-file");
-        if (!card || card.closest(".emp-preview") || event.target.closest("button, a, input, textarea")) return;
+    if (previewRoot) document.addEventListener("click", function (event) {
+        var openAct = event.target.closest(".emp-file__act--open");
+        var card = openAct ? openAct.closest(".emp-file") : event.target.closest(".emp-file");
+        if (!card || card.closest(".emp-preview")) return;
+        if (!openAct && event.target.closest("button, a, input, textarea")) return;
         var nameNode = card.querySelector(".emp-file__name");
         if (!nameNode) return;
         var name = nameNode.textContent.trim();
-        var id = name === "photo.jpeg" ? "image" : name === "BOL.pdf" ? "pdf" : name === "VID_123_45.mp4" ? "video" : "";
+        var id = name === "photo.jpeg" ? "image" : name === "BOL.pdf" ? "pdf" : name === "VID_123_45.mp4" ? "video" : name === "Record.mp3" ? "audio" : "";
         if (id) openPreview(id, "inputs");
     });
-    var sheetImg = previewRoot.querySelector("[data-preview-sheet]");
+    var sheetImg = previewRoot && previewRoot.querySelector("[data-preview-sheet]");
     if (sheetImg) sheetImg.addEventListener("load", function () { paintZoom(zoomValue, zoomFocus()); });
-    var previewView = previewRoot.querySelector("[data-preview-view]");
+    var previewView = previewRoot && previewRoot.querySelector("[data-preview-view]");
     if (previewView) {
         previewView.addEventListener("wheel", function (event) {
             if (!event.ctrlKey && !event.metaKey) return;
@@ -1108,7 +1176,7 @@
             paintZoom(zoomValue, zoomFocus());
         }, { passive: false });
     }
-    previewRoot.querySelectorAll("[data-zoom]").forEach(function (button) {
+    if (previewRoot) previewRoot.querySelectorAll("[data-zoom]").forEach(function (button) {
         button.addEventListener("click", function () {
             var act = button.getAttribute("data-zoom");
             if (act === "full") {
@@ -1123,7 +1191,7 @@
             animateZoom(next);
         });
     });
-    previewRoot.addEventListener("click", function (event) {
+    if (previewRoot) previewRoot.addEventListener("click", function (event) {
         var play = event.target.closest("[data-play]");
         var mute = event.target.closest("[data-mute]");
         var full = event.target.closest("[data-full]");
@@ -1141,7 +1209,7 @@
             else if (screen.requestFullscreen) screen.requestFullscreen();
         }
     });
-    previewRoot.querySelectorAll("[data-seek]").forEach(function (bar) {
+    if (previewRoot) previewRoot.querySelectorAll("[data-seek]").forEach(function (bar) {
         function fromEvent(event) {
             var media = bar.closest(".emp-preview__stage").querySelector("video, audio");
             if (media) seekMedia(bar, media, event.clientX);
@@ -1158,7 +1226,7 @@
             document.addEventListener("mouseup", up);
         });
     });
-    previewRoot.querySelectorAll("video, audio").forEach(function (media) {
+    if (previewRoot) previewRoot.querySelectorAll("video, audio").forEach(function (media) {
         ["timeupdate", "loadedmetadata", "play", "pause", "ended"].forEach(function (name) {
             media.addEventListener(name, function () { paintMedia(media); });
         });

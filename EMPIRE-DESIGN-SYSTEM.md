@@ -182,3 +182,43 @@ Noto Sans. Стиль выбирается по месту в интерфейс
 8. Экран собирать снизу вверх. Компонент не содержит сырых слоёв вместо примитивов.
 9. Узкий или сложный элемент повышать до компонента. Повторяемый и стабильный — делать глобальным. Остальное оставлять в файле раздела.
 10. Не дублировать кнопку, инпут, таб, модалку или хедер «почти как в системе».
+
+## Toasts
+
+Тост — это `emp-info emp-info--frame` нужного тона, вылетающий в стек. Карточку инфобокса не перерисовывать. Стек, движение и набор фраз живут в `css/toast.css` и `js/toast.js`. Вызов: `empToast(kind, data)`.
+
+Позиция стека: `top: 40px`, `right: 40px`, колонка с `gap: 16px`, выравнивание по правому краю, `z-index: 1300` (выше оверлея модалки). Ширина по содержимому.
+
+Тайминг — [CodePen OPbmdoX](https://codepen.io/VladimirEmpireNational/pen/OPbmdoX):
+
+- Появление: `opacity` 0 → 1 и `transform` `translateX(20px) scale(0.98)` → `none` за 0.4s. Transform на `cubic-bezier(0.175, 0.885, 0.32, 1.1)`.
+- Тост виден 1500ms.
+- Уход: те же свойства за 0.25s `ease`. Узел удаляется из DOM через 250ms после старта ухода.
+- Новый тост добавляется в стек и не заменяет предыдущий.
+- `prefers-reduced-motion` отключает transform и transition. Время жизни то же.
+
+### Копирование в View
+
+В каждой модалке View у каждой строки значения есть кнопка копирования. Иконка `action menu/copy`, 24×24. Её нет, пока курсор или фокус не на строке. Клик пишет текст значения в буфер и показывает тост `copied`. Это поведение по умолчанию для всех будущих View, не отдельная фича склада. Первая реализация — View warehouse.
+
+### Каталог
+
+Тон берётся у `emp-info`: info, success, warning, error. Иконка 16×16 из набора fill. Текст не выдумывать.
+
+| kind | Тон | Заголовок | Текст |
+|---|---|---|---|
+| `copied` | info | Copied | Warehouse details have been saved to your clipboard. |
+| `saved` | success | Saved | Changes have been successfully saved. |
+| `created` | success | Created | New item has been successfully created. |
+| `updated` | success | Updated | Item has been successfully updated. |
+| `deleted` | success | Delete | Item has been successfully deleted. |
+| `sent` | success | Sent | "[Name]" has been successfully sent. |
+| `connection` | warning | Connection lost | Please check your internet connection and try again. |
+| `denied` | error | Access Denied | You do not have permission to perform this action. |
+| `format` | error | Unsupported file format | Allowed formats: Documents (PDF, DOC, DOCX, XLS, XLSX, CSV) Images (JPEG, PNG, HEIC). |
+| `large` | error | File is too large | Maximum allowed file size is [X] MB. |
+| `unreadable` | error | File cannot be read | The file is corrupted or empty. Please check it and try again. |
+| `upload` | error | Upload failed | Unable to upload the file. Please try again or select another file. |
+| `saveFailed` | error | Upload failed | Unable to save changes. Please try again. |
+
+`sent` принимает `{ name }`, `large` принимает `{ size }`. Макет: [Toasts, node 6558:24180](https://www.figma.com/design/X1zmjtoFusntm0yJrB2nyW/Empire-design-system--bootstrap-?node-id=6558-24180).
