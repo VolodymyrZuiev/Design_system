@@ -1,26 +1,4 @@
 (function () {
-    var clock = document.getElementById("bl-clock");
-    function paintClock() {
-        if (!clock) return;
-        var parts = new Intl.DateTimeFormat("en-US", {
-            timeZone: "America/New_York",
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true
-        }).formatToParts(new Date());
-        var hour = "";
-        var minute = "";
-        var day = "";
-        parts.forEach(function (part) {
-            if (part.type === "hour") hour = part.value;
-            if (part.type === "minute") minute = part.value;
-            if (part.type === "dayPeriod") day = part.value;
-        });
-        clock.textContent = hour + ":" + minute + " " + day;
-    }
-    paintClock();
-    setInterval(paintClock, 30000);
-
     var tabs = document.querySelectorAll("[data-bl-tab]");
     var panels = document.querySelectorAll("[data-tab]");
     tabs.forEach(function (tab) {
@@ -37,32 +15,9 @@
         });
     });
 
-    var pageSize = document.getElementById("bl-page-size");
-    var pageSizeValue = document.getElementById("bl-page-size-value");
-    var pageRange = document.getElementById("bl-range");
-    var pageSizeBtn = pageSize.querySelector(".emp-input__chevron-btn");
-    function setPageSizeOpen(open) {
-        pageSize.classList.toggle("is-open", open);
-        pageSizeBtn.setAttribute("aria-expanded", open ? "true" : "false");
-    }
-    pageSize.addEventListener("click", function (event) {
-        var item = event.target.closest("[data-size]");
-        if (item) {
-            var size = item.getAttribute("data-size");
-            pageSizeValue.value = size;
-            pageRange.textContent = "1-" + size;
-            pageSize.querySelectorAll(".emp-drop__item").forEach(function (entry) {
-                entry.classList.toggle("is-selected", entry === item);
-            });
-            setPageSizeOpen(false);
-            return;
-        }
-        setPageSizeOpen(!pageSize.classList.contains("is-open"));
-    });
-
     function applyFilters(panel) {
         var fields = panel.querySelectorAll("[data-bl-filter]");
-        var rows = panel.querySelectorAll(".bl-row");
+        var rows = panel.querySelectorAll(".emp-table__row");
         rows.forEach(function (row) {
             var show = true;
             fields.forEach(function (field) {
@@ -93,7 +48,6 @@
     });
     document.addEventListener("click", function (event) {
         document.querySelectorAll(".bl-panel").forEach(applyFilters);
-        if (!pageSize.contains(event.target)) setPageSizeOpen(false);
     });
 
     var pendingRow = null;
@@ -110,10 +64,10 @@
     }
     document.querySelectorAll("[data-bl-close]").forEach(function (button) {
         button.addEventListener("click", function () {
-            closeOverlay(button.closest(".bl-overlay"));
+            closeOverlay(button.closest(".emp-overlay"));
         });
     });
-    document.querySelectorAll(".bl-overlay").forEach(function (overlay) {
+    document.querySelectorAll(".emp-overlay:not(#preview-overlay)").forEach(function (overlay) {
         overlay.addEventListener("click", function (event) {
             if (event.target === overlay) closeOverlay(overlay);
         });
@@ -127,7 +81,7 @@
         if (kind === "report") openOverlay("bl-report");
         if (kind === "driver") openOverlay("bl-driver");
         if (kind === "return-driver" || kind === "return-owner") {
-            pendingRow = open.closest(".bl-row");
+            pendingRow = open.closest(".emp-table__row");
             openOverlay(kind === "return-driver" ? "bl-return-driver" : "bl-return-owner");
         }
     });
@@ -135,7 +89,7 @@
     document.querySelectorAll("[data-bl-archive]").forEach(function (button) {
         button.addEventListener("click", function () {
             if (pendingRow) pendingRow.remove();
-            closeOverlay(button.closest(".bl-overlay"));
+            closeOverlay(button.closest(".emp-overlay"));
         });
     });
 
@@ -171,43 +125,8 @@
         });
     });
 
-    function fallbackCopy(value) {
-        var area = document.createElement("textarea");
-        area.value = value;
-        area.setAttribute("readonly", "");
-        area.className = "emp-copy-sink";
-        document.body.appendChild(area);
-        area.select();
-        try { document.execCommand("copy"); } catch (error) { /* clipboard blocked */ }
-        area.remove();
-    }
-    function copyValue(value) {
-        function copied() { window.empToast("copied"); }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(value).then(copied, function () {
-                fallbackCopy(value);
-                copied();
-            });
-            return;
-        }
-        fallbackCopy(value);
-        copied();
-    }
-    document.addEventListener("click", function (event) {
-        var button = event.target.closest(".bl-copy, .bl-title-copy");
-        if (!button) return;
-        var holder = button.closest(".bl-field, .bl-contact, .bl-report__row, .emp-mw__head");
-        var target = holder ? holder.querySelector("[data-copy]") : null;
-        if (!target) return;
-        copyValue(target.textContent.trim());
-    });
-
     document.addEventListener("keydown", function (event) {
         if (event.key !== "Escape") return;
-        if (pageSize.classList.contains("is-open")) {
-            setPageSizeOpen(false);
-            return;
-        }
-        document.querySelectorAll(".bl-overlay.is-open").forEach(closeOverlay);
+        document.querySelectorAll(".emp-overlay.is-open:not(#preview-overlay)").forEach(closeOverlay);
     });
 })();

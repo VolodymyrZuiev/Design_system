@@ -1,7 +1,7 @@
 (function () {
     var rows = [
         { id: 1, unit: "", driver: "", owner: "", reportCode: "", reportLoad: "", deductedCode: "", deductedLoad: "", date: "05/25/2026", category: ["Application usage"], amount: "$30.00", status: "Charged", hint: "", support: "", office: "MX1", hr: "MX1", when: "04/02/2026 07:42 AM", pro: "46697", user: "Test Admin", sub: "Impatience at PU/DEL", note: "-" },
-        { id: 2, unit: "3667", driver: "Andrew Jameson", owner: "Oliver Koelpin", reportCode: "UA1| JSn", reportLoad: "57632", deductedCode: "", deductedLoad: "", date: "05/25/2026", category: ["Possible claim", "Load damaged"], amount: "$30.00", status: "Deducted", hint: "Load isn't set", support: "Matthew Hyde", office: "MX1", hr: "MX2", when: "05/25/2026 09:14 AM", pro: "57632", user: "Test Admin", sub: "Load damaged", note: "Waiting for photos." },
+        { id: 2, unit: "3667", driver: "Andrew Jameson", owner: "Oliver Koelpin", reportCode: "UA1| JSn", reportLoad: "57632", deductedCode: "", deductedLoad: "", date: "05/25/2026", category: ["Possible claim", "Load damaged"], amount: "$30.00", status: "Deducted", hint: "Load isn't set", support: "Matthew Hyde", office: "MX1", hr: "MX2", when: "05/25/2026 09:14 AM", pro: "57632", user: "Test Admin", sub: "Load damaged", note: "Waiting for photos.", files: [{ name: "4k.png", src: "icons/upload/photo.jpeg.png" }] },
         { id: 3, unit: "1199", driver: "Andrew Jameson", owner: "Andrew Jameson", reportCode: "UA1| JSn", reportLoad: "34545", deductedCode: "UA1| JSn", deductedLoad: "34545", date: "05/25/2026", category: ["Failed to provide constant updates"], amount: "$50.00", status: "Charged", hint: "", support: "Matthew Hyde", office: "MX2", hr: "MX1", when: "05/18/2026 11:02 AM", pro: "34545", user: "Test Admin", sub: "No status update", note: "-" },
         { id: 4, unit: "1199", driver: "Andrew Jameson", owner: "Mrs. Mathew Emard", reportCode: "UA1| JSn", reportLoad: "94985", deductedCode: "", deductedLoad: "", date: "05/25/2026", category: ["Application usage"], amount: "$10.00", status: "Charged", hint: "", support: "Matthew Hyde", office: "MX2", hr: "MX2", when: "05/12/2026 04:40 PM", pro: "94985", user: "Test Admin", sub: "Application usage", note: "-" },
         { id: 5, unit: "2526", driver: "Andrew Jameson", owner: "Beulah Idling", reportCode: "UA1| JSn", reportLoad: "82047", deductedCode: "", deductedLoad: "", date: "05/25/2026", category: ["Application usage"], amount: "$120.00", status: "Charged", hint: "", support: "", office: "MX3", hr: "MX1", when: "05/09/2026 08:20 AM", pro: "82047", user: "Test Admin", sub: "Application usage", note: "-" },
@@ -15,12 +15,12 @@
     var list = document.getElementById("ch-rows");
     var rangeNode = document.getElementById("ch-range");
     var totalNode = document.getElementById("ch-total");
-    var pageSize = document.getElementById("ch-page-size");
     var pageSizeValue = document.getElementById("ch-page-size-value");
     var viewOverlay = document.getElementById("ch-view-overlay");
     var deductOverlay = document.getElementById("ch-deduct-overlay");
     var deleteOverlay = document.getElementById("ch-delete-overlay");
     var current = null;
+    var sortDir = "";
 
     function esc(value) {
         return String(value == null ? "" : value)
@@ -30,39 +30,46 @@
     }
 
     function menu() {
-        return '<div class="ch-menu"><button class="ch-menu__hit" type="button" aria-label="Actions"><img src="icons/warehouses/menu.svg" alt=""></button><span class="ch-act"><button type="button" data-act="view"><img src="icons/warehouses/view.svg" alt="" width="16" height="16">View</button><button type="button" data-act="update"><img src="icons/warehouses/edit.svg" alt="" width="16" height="16">Update</button><button type="button" data-act="deduct"><img src="icons/blacklist/plus.svg" alt="" width="16" height="16">Set deducted load</button><button class="ch-act__delete" type="button" data-act="delete"><img src="icons/warehouses/delete.svg" alt="" width="16" height="16">Delete</button></span></div>';
+        return '<div class="emp-amenu"><button class="emp-amenu__hit" type="button" aria-label="Actions" aria-expanded="false"><span class="emp-amenu__dots"></span></button><span class="emp-amenu__list"><button class="emp-amenu__item" type="button" data-act="view"><img src="icons/action-menu/view.svg" alt="" width="16" height="16">View report</button><button class="emp-amenu__item" type="button" data-act="update"><img src="icons/action-menu/edit.svg" alt="" width="16" height="16">Update check call</button></span></div>';
     }
 
     function lines(parts, extra) {
         if (!parts || !parts.length || !parts[0]) return "";
-        return '<span class="ch-stack">' + parts.map(function (part, index) {
-            return '<span class="' + (index && extra ? extra : "") + '">' + esc(part) + "</span>";
-        }).join("") + "</span>";
+        return parts.map(function (part, index) {
+            return "<span" + (index && extra ? ' class="' + extra + '"' : "") + ">" + esc(part) + "</span>";
+        }).join("");
     }
 
     function loadBlock(code, load) {
         if (!load) return "";
-        return '<span class="ch-stack"><span>' + esc(code) + '</span><span class="ch-link">' + esc(load) + "</span></span>";
+        return "<span>" + esc(code) + '</span><span class="emp-table__link">' + esc(load) + "</span>";
+    }
+
+    function pillClass(status) {
+        return "emp-pill emp-pill--" + (status === "Deducted" ? "alarm" : "success");
     }
 
     function rowHtml(row) {
-        var unit = row.unit ? esc(row.unit) : '<span class="ch-unset">(not set)</span>';
-        var who = lines([row.driver, row.owner].filter(Boolean), "ch-muted");
+        var unit = row.unit ? esc(row.unit) : '<span class="emp-table__unset">(not set)</span>';
+        var who = lines([row.driver, row.owner].filter(Boolean), "emp-table__muted");
         var deducted = row.deductedLoad
             ? loadBlock(row.deductedCode, row.deductedLoad)
-            : '<button class="ch-plus" type="button" data-act="deduct" aria-label="Set deducted load"><svg class="emp-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-plus"></use></svg></button>';
-        var status = '<span class="ch-status"><span class="ch-pill ch-pill--' + (row.status === "Deducted" ? "deducted" : "charged") + '">' + esc(row.status) + "</span>" +
-            (row.hint ? '<span class="ch-hint">' + esc(row.hint) + "</span>" : "") + "</span>";
-        return '<div class="ch-row" data-id="' + row.id + '">' +
-            "<div>" + unit + "</div>" +
-            "<div>" + who + "</div>" +
-            "<div>" + loadBlock(row.reportCode, row.reportLoad) + "</div>" +
-            "<div>" + deducted + "</div>" +
-            '<div><span class="ch-muted">' + esc(row.date) + "</span></div>" +
-            "<div>" + lines(row.category) + "</div>" +
-            '<div><span class="ch-money">' + esc(row.amount) + "</span></div>" +
-            "<div>" + status + "</div>" +
-            "<div>" + esc(row.support) + "</div>" +
+            : '<button class="emp-plus" type="button" data-act="deduct" aria-label="Set deducted load"><svg class="emp-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-plus"></use></svg></button>';
+        var status = '<span class="' + pillClass(row.status) + '">' + esc(row.status) + "</span>" +
+            (row.hint ? '<span class="emp-hint">' + esc(row.hint) + "</span>" : "");
+        function cell(content, extra) {
+            return '<div class="emp-table__cell' + (extra ? " " + extra : "") + '">' + content + "</div>";
+        }
+        return '<div class="emp-table__row" data-id="' + row.id + '">' +
+            cell(unit) +
+            cell(who) +
+            cell(loadBlock(row.reportCode, row.reportLoad)) +
+            cell(deducted) +
+            cell('<span class="emp-table__muted">' + esc(row.date) + "</span>") +
+            cell(lines(row.category)) +
+            cell('<span class="emp-table__money">' + esc(row.amount) + "</span>") +
+            cell(status, "emp-table__cell--center") +
+            cell(esc(row.support)) +
             menu() +
             "</div>";
     }
@@ -104,6 +111,7 @@
     function paint() {
         var size = parseInt(pageSizeValue.value, 10) || 20;
         var visible = rows.filter(matches);
+        if (sortDir === "asc") visible = visible.slice().reverse();
         list.innerHTML = visible.slice(0, size).map(rowHtml).join("");
         var shown = Math.min(size, visible.length);
         rangeNode.textContent = shown ? "1-" + shown : "0";
@@ -114,13 +122,47 @@
         return rows.filter(function (row) { return String(row.id) === String(id); })[0];
     }
 
+    function fileCard(file) {
+        var item = document.createElement("article");
+        item.className = "emp-file";
+        item.innerHTML =
+            '<img class="emp-file__img" src="' + esc(file.src) + '" alt="">' +
+            '<div class="emp-file__shade">' +
+                '<div class="emp-file__top">' +
+                    '<span class="emp-file__line"><svg class="emp-file__type" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-file-image"></use></svg><span class="emp-file__name"></span></span>' +
+                    '<span class="emp-file__kind">Attachment type</span>' +
+                "</div>" +
+                '<div class="emp-file__mid"><button class="emp-file__act emp-file__act--open" type="button" aria-label="Open"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-file-open"></use></svg></button></div>' +
+                '<div class="emp-file__bot">' +
+                    '<button class="emp-file__act emp-file__act--delete" type="button" aria-label="Delete"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-trash"></use></svg></button>' +
+                    '<button class="emp-file__act" type="button" aria-label="Download"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-download"></use></svg></button>' +
+                    '<button class="emp-file__act" type="button" aria-label="More"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-dots"></use></svg></button>' +
+                "</div>" +
+            "</div>";
+        item.querySelector(".emp-file__name").textContent = file.name;
+        item.querySelector(".emp-file__act--delete").addEventListener("click", function (event) {
+            event.stopPropagation();
+            item.remove();
+        });
+        return item;
+    }
+
+    function paintFiles(row) {
+        var content = document.querySelector("#ch-photos .emp-upload__content");
+        var drop = content.querySelector(".emp-upload__drop");
+        content.querySelectorAll(".emp-file").forEach(function (node) { node.remove(); });
+        (row.files || []).forEach(function (file) {
+            content.insertBefore(fileCard(file), drop);
+        });
+    }
+
     function open(overlay) {
         if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
         overlay.classList.add("is-open");
     }
 
     function closeAll() {
-        document.querySelectorAll(".ch-overlay.is-open").forEach(function (overlay) {
+        document.querySelectorAll(".emp-overlay.is-open").forEach(function (overlay) {
             overlay.classList.remove("is-open");
         });
     }
@@ -131,7 +173,7 @@
         document.querySelector("[data-ch-name]").textContent = row.category[0] || "Report";
         var pill = document.querySelector("[data-ch-status]");
         pill.textContent = row.status;
-        pill.className = "ch-pill ch-pill--" + (row.status === "Deducted" ? "deducted" : "charged");
+        pill.className = pillClass(row.status);
         var hint = document.querySelector("[data-ch-hint]");
         hint.textContent = row.hint;
         hint.hidden = !row.hint;
@@ -146,6 +188,7 @@
         var area = document.getElementById("ch-note");
         area.value = row.note === "-" ? "" : row.note;
         area.readOnly = mode !== "update";
+        paintFiles(row);
         document.getElementById("ch-view-foot").hidden = mode !== "update";
         open(viewOverlay);
     }
@@ -153,7 +196,7 @@
     list.addEventListener("click", function (event) {
         var action = event.target.closest("[data-act]");
         if (!action) return;
-        var rowNode = action.closest(".ch-row");
+        var rowNode = action.closest(".emp-table__row");
         var row = find(rowNode.getAttribute("data-id"));
         var kind = action.getAttribute("data-act");
         if (kind === "view") fillReport(row, "view");
@@ -204,13 +247,22 @@
     document.querySelectorAll("[data-ch-close]").forEach(function (button) {
         button.addEventListener("click", closeAll);
     });
-    document.querySelectorAll(".ch-overlay").forEach(function (overlay) {
+    [viewOverlay, deductOverlay, deleteOverlay].forEach(function (overlay) {
         overlay.addEventListener("click", function (event) {
             if (event.target === overlay) closeAll();
         });
     });
 
     document.querySelector(".ch").addEventListener("input", paint);
+    document.querySelector(".ch").addEventListener("click", function (event) {
+        if (!event.target.closest("[data-ch-sort]")) return;
+        event.preventDefault();
+        sortDir = sortDir === "asc" ? "desc" : "asc";
+        document.querySelectorAll("[data-ch-sort]").forEach(function (node) {
+            node.classList.toggle("is-asc", sortDir === "asc");
+        });
+        paint();
+    });
     document.addEventListener("click", function (event) {
         if (event.target.closest("[data-act='apply']")) {
             requestAnimationFrame(paint);
@@ -221,62 +273,9 @@
         var trigger = event.target.closest(".emp-accordion__trigger");
         if (trigger) {
             trigger.closest(".emp-accordion__item").classList.toggle("is-open");
-            return;
-        }
-        var button = event.target.closest(".ch-copy");
-        if (!button) return;
-        var value = button.parentNode.querySelector("dd").textContent.trim();
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(value).then(function () {
-                if (window.empToast) window.empToast("copied");
-            });
         }
     });
 
-    var pageSizeBtn = pageSize.querySelector(".emp-input__chevron-btn");
-    pageSize.addEventListener("click", function (event) {
-        var item = event.target.closest("[data-size]");
-        if (item) {
-            pageSizeValue.value = item.getAttribute("data-size");
-            pageSize.querySelectorAll(".emp-drop__item").forEach(function (entry) {
-                entry.classList.toggle("is-selected", entry === item);
-            });
-            pageSize.classList.remove("is-open");
-            pageSizeBtn.setAttribute("aria-expanded", "false");
-            paint();
-            return;
-        }
-        var opened = !pageSize.classList.contains("is-open");
-        pageSize.classList.toggle("is-open", opened);
-        pageSizeBtn.setAttribute("aria-expanded", opened ? "true" : "false");
-    });
-    document.addEventListener("click", function (event) {
-        if (!pageSize.contains(event.target)) {
-            pageSize.classList.remove("is-open");
-            pageSizeBtn.setAttribute("aria-expanded", "false");
-        }
-    });
-
-    var clock = document.getElementById("ch-clock");
-    function paintClock() {
-        if (!clock) return;
-        var parts = new Intl.DateTimeFormat("en-US", {
-            timeZone: "America/New_York",
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true
-        }).formatToParts(new Date());
-        var hour = "";
-        var minute = "";
-        var day = "";
-        parts.forEach(function (part) {
-            if (part.type === "hour") hour = part.value;
-            if (part.type === "minute") minute = part.value;
-            if (part.type === "dayPeriod") day = part.value;
-        });
-        clock.textContent = hour + ":" + minute + " " + day;
-    }
-    paintClock();
-    setInterval(paintClock, 30000);
+    pageSizeValue.addEventListener("change", paint);
     paint();
 })();

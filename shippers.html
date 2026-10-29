@@ -8,9 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@400;500;600&family=Noto+Sans:wdth,wght@87.5,700;100,400;100,500;100,600;100,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/empire.css?v=click36">
-    <link rel="stylesheet" href="css/header.css?v=h3">
-    <link rel="stylesheet" href="css/shippers.css?v=sr2">
+    <link rel="stylesheet" href="css/empire.css?v=ds3">
+    <link rel="stylesheet" href="css/header.css?v=ds2">
+    <link rel="stylesheet" href="css/shippers.css?v=ds1">
     <link rel="stylesheet" href="css/toast.css?v=t2">
     <script>
         (function () {
@@ -21,7 +21,7 @@
         })();
     </script>
 </head>
-<body>
+<body class="emp-app">
 
     <svg class="emp-sprite" aria-hidden="true">
         <symbol id="i-person" viewBox="0 0 12 12"><path fill="currentColor" d="M1 12C1 12 0 12 0 11C0 10 1 7 6 7C11 7 12 10 12 11C12 12 11 12 11 12H1Z"/><path fill="currentColor" d="M6 6C7.65685 6 9 4.65685 9 3C9 1.34315 7.65685 0 6 0C4.34315 0 3 1.34315 3 3C3 4.65685 4.34315 6 6 6Z"/></symbol>
@@ -415,7 +415,7 @@
             </a>
         </div>
     </nav>
-    <div class="sr">
+    <div class="emp-app__main sr">
         <header class="emp-head">
             <div class="emp-head__start">
                 <h1 class="emp-head__title">Shippers Receivers</h1>
@@ -441,7 +441,7 @@
                     <svg class="emp-head__clock-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-wh-globe"></use></svg>
                     <span>EST</span>
                     <span class="emp-head__rule"></span>
-                    <span id="sr-clock">10:02 AM</span>
+                    <span id="sr-clock" data-emp-clock>10:02 AM</span>
                 </div>
                 <span class="emp-head__bell" aria-label="Notifications">
                     <svg class="emp-head__bell-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-wh-bell"></use></svg>
@@ -453,15 +453,15 @@
                 </div>
             </div>
         </header>
-        <section class="sr-table" aria-label="Shippers Receivers">
-            <div class="sr-bar">
+        <section class="emp-table sr-table" aria-label="Shippers Receivers">
+            <div class="emp-table__bar">
                 <button class="emp-btn emp-btn--primary emp-btn--md" id="sr-create" type="button">
                     <span class="emp-btn__glyph"><svg class="emp-icon emp-icon--person" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-wh-plus"></use></svg></span>
                     <span class="emp-btn__label">Create Shippers Receivers</span>
                 </button>
-                <div class="sr-meta"><span>Showing <strong id="sr-range">1-20</strong> of <strong id="sr-total">670</strong> items.</span><span class="sr-meta__rule"></span><div class="sr-show"><span>Show</span><div class="sr-show__field"><div class="emp-combo" id="sr-page-size"><div class="emp-field emp-field--sm"><div class="emp-combo__anchor"><div class="emp-input"><input class="emp-input__control" id="sr-page-size-value" type="text" value="20" readonly aria-label="Items per page"><button class="emp-input__chevron-btn" type="button" aria-label="Items per page" aria-expanded="false"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></button></div><div class="emp-drop"><button class="emp-drop__item is-selected" type="button" data-size="20">20</button><button class="emp-drop__item" type="button" data-size="40">40</button><button class="emp-drop__item" type="button" data-size="60">60</button><button class="emp-drop__item" type="button" data-size="80">80</button><button class="emp-drop__item" type="button" data-size="100">100</button><button class="emp-drop__item" type="button" data-size="120">120</button></div></div></div></div></div><span>items.</span></div></div>
+                <div class="emp-meta"><span>Showing <strong id="sr-range" data-emp-show-range>1-20</strong> of <strong id="sr-total">670</strong> items.</span><span class="emp-meta__rule"></span><div class="emp-show"><span>Show</span><div class="emp-show__field"><div class="emp-combo" id="sr-page-size" data-emp-show><div class="emp-field emp-field--sm"><div class="emp-combo__anchor"><div class="emp-input"><input class="emp-input__control" id="sr-page-size-value" type="text" value="20" readonly aria-label="Items per page"><button class="emp-input__chevron-btn" type="button" aria-label="Items per page" aria-expanded="false"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></button></div><div class="emp-drop"><button class="emp-drop__item is-selected" type="button" data-size="20">20</button><button class="emp-drop__item" type="button" data-size="40">40</button><button class="emp-drop__item" type="button" data-size="60">60</button><button class="emp-drop__item" type="button" data-size="80">80</button><button class="emp-drop__item" type="button" data-size="100">100</button><button class="emp-drop__item" type="button" data-size="120">120</button></div></div></div></div></div><span>items.</span></div></div>
             </div>
-            <div class="sr-filters" role="search">
+            <div class="emp-table__filters" role="search">
                 <div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">Name</span></div><div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="text" placeholder="Search by name" data-sr-filter="name" aria-label="Name"></div></div>
                 <div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">City/State/Zip</span></div><div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="text" placeholder="Search by location" data-sr-filter="location" aria-label="City/State/Zip"></div></div>
                 <div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">Street</span></div><div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="text" placeholder="Search by street" data-sr-filter="street" aria-label="Street"></div></div>
@@ -470,8 +470,8 @@
                 <div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">Lng</span></div><div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="text" placeholder="Search by Lng" data-sr-filter="lng" aria-label="Lng"></div></div>
                 <span></span>
             </div>
-            <div class="sr-rows" id="sr-rows" role="table"></div>
-            <nav class="emp-pagination sr-pages" aria-label="Pages">
+            <div class="emp-table__rows" id="sr-rows" role="table"></div>
+            <nav class="emp-pagination emp-table__pages" aria-label="Pages">
                 <button class="emp-page__arrow is-inactive" type="button" aria-label="Back" disabled><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-chevron-left"></use></svg></button>
                 <button class="emp-page is-active" type="button">1</button>
                 <button class="emp-page" type="button">2</button>
@@ -488,31 +488,31 @@
         </section>
     </div>
 
-    <div class="emp-overlay sr-overlay" id="sr-form-overlay">
-        <form class="emp-mw emp-mw--md sr-dialog" id="sr-form" role="dialog" aria-modal="true" aria-labelledby="sr-form-title">
+    <div class="emp-overlay" id="sr-form-overlay">
+        <form class="emp-mw emp-mw--md emp-mw--form" id="sr-form" role="dialog" aria-modal="true" aria-labelledby="sr-form-title">
             <div class="emp-mw__head">
                 <h2 class="emp-mw__title" id="sr-form-title">Create Shipper/Receiver</h2>
                 <button class="emp-mw__close" type="button" data-sr-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x-lg"></use></svg></button>
             </div>
             <div class="emp-mw__body">
                 <div class="emp-mw__slot">
-                    <div class="sr-form">
+                    <div class="emp-form sr-form">
                         <div class="emp-field" id="sr-name-field">
                             <div class="emp-field__title"><span class="emp-field__label">Company name</span><span class="emp-field__help"></span></div>
                             <div class="emp-input"><input class="emp-input__control" type="text" name="name" placeholder="Enter company name" readonly data-emp-options="Central Hub|Logistics Hub|Supply Chain Center|Grupo Logístico Norte"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div>
                         </div>
-                        <div class="sr-form__row">
+                        <div class="emp-form__row">
                             <div class="emp-field"><div class="emp-field__title"><span class="emp-field__label">Street</span></div><div class="emp-input"><input class="emp-input__control" type="text" name="street" placeholder="Select street"></div></div>
                             <div class="emp-field"><div class="emp-field__title"><span class="emp-field__label">Street additional</span></div><div class="emp-input"><input class="emp-input__control" type="text" name="extra" placeholder="Select additional street"></div></div>
                         </div>
                         <div class="emp-field"><div class="emp-field__title"><span class="emp-field__label">Country</span></div><div class="emp-input"><input class="emp-input__control" type="text" name="country" placeholder="Enter country"></div></div>
-                        <div class="sr-form__row">
+                        <div class="emp-form__row">
                             <div class="emp-field"><div class="emp-field__title"><span class="emp-field__label">City</span></div><div class="emp-input"><input class="emp-input__control" type="text" name="city" placeholder="Enter city"></div></div>
                             <div class="emp-field"><div class="emp-field__title"><span class="emp-field__label">State</span></div><div class="emp-input"><input class="emp-input__control" type="text" name="state" placeholder="Enter state"></div></div>
                             <div class="emp-field"><div class="emp-field__title"><span class="emp-field__label">Zip</span></div><div class="emp-input"><input class="emp-input__control" type="text" name="zip" placeholder="Enter zip"></div></div>
                         </div>
                         <div class="emp-field"><div class="emp-field__title"><span class="emp-field__label">Email</span></div><div class="emp-input"><input class="emp-input__control" type="text" name="email" placeholder="Enter email"></div></div>
-                        <div class="sr-form__row">
+                        <div class="emp-form__row">
                             <div class="emp-field"><div class="emp-field__title"><span class="emp-field__label">Contact person name</span></div><div class="emp-input"><input class="emp-input__control" type="text" name="contact" placeholder="Enter email"></div></div>
                             <div class="emp-field"><div class="emp-field__title"><span class="emp-field__label">Contact person phone number</span></div><div class="emp-input"><input class="emp-input__control" type="text" name="phone" placeholder="Enter contact phone"></div></div>
                         </div>
@@ -526,42 +526,40 @@
         </form>
     </div>
 
-    <div class="emp-overlay sr-overlay" id="sr-view-overlay">
-        <div class="emp-mw emp-mw--md sr-dialog" role="dialog" aria-modal="true" aria-labelledby="sr-view-title">
+    <div class="emp-overlay" id="sr-view-overlay">
+        <div class="emp-mw emp-mw--md emp-mw--form" role="dialog" aria-modal="true" aria-labelledby="sr-view-title">
             <div class="emp-mw__head">
-                <div class="sr-head__icon">
-                    <img src="icons/blacklist/info.svg" width="24" height="24" alt="">
-                    <h2 class="emp-mw__title" id="sr-view-title">Info</h2>
-                </div>
+                <img class="emp-mw__icon" src="icons/modal/info.svg" width="24" height="24" alt="">
+                <h2 class="emp-mw__title" id="sr-view-title">Info</h2>
                 <button class="emp-mw__close" type="button" data-sr-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x-lg"></use></svg></button>
             </div>
             <div class="emp-mw__body">
                 <div class="emp-mw__slot">
-                    <div class="sr-view">
-                        <div class="sr-view__row"><strong>ID:</strong><span id="sr-view-id"></span><button class="sr-copy" type="button" aria-label="Copy ID"><img src="icons/toast/copy.svg" width="24" height="24" alt=""></button></div>
-                        <div class="sr-view__row"><strong>Name:</strong><span id="sr-view-name"></span><button class="sr-copy" type="button" aria-label="Copy name"><img src="icons/toast/copy.svg" width="24" height="24" alt=""></button></div>
-                        <div class="sr-view__row"><strong>Street:</strong><span id="sr-view-street"></span><button class="sr-copy" type="button" aria-label="Copy street"><img src="icons/toast/copy.svg" width="24" height="24" alt=""></button></div>
-                        <div class="sr-view__row"><strong>Street additional:</strong><span id="sr-view-extra"></span><button class="sr-copy" type="button" aria-label="Copy street additional"><img src="icons/toast/copy.svg" width="24" height="24" alt=""></button></div>
-                        <div class="sr-view__row"><strong>City:</strong><span id="sr-view-city"></span><button class="sr-copy" type="button" aria-label="Copy city"><img src="icons/toast/copy.svg" width="24" height="24" alt=""></button></div>
-                        <div class="sr-view__row"><strong>State:</strong><span id="sr-view-state"></span><button class="sr-copy" type="button" aria-label="Copy state"><img src="icons/toast/copy.svg" width="24" height="24" alt=""></button></div>
-                        <div class="sr-view__row"><strong>Zip:</strong><span id="sr-view-zip"></span><button class="sr-copy" type="button" aria-label="Copy zip"><img src="icons/toast/copy.svg" width="24" height="24" alt=""></button></div>
-                        <div class="sr-view__row"><strong>Lat:</strong><span id="sr-view-lat"></span><button class="sr-copy" type="button" aria-label="Copy lat"><img src="icons/toast/copy.svg" width="24" height="24" alt=""></button></div>
-                        <div class="sr-view__row"><strong>Lng:</strong><span id="sr-view-lng"></span><button class="sr-copy" type="button" aria-label="Copy lng"><img src="icons/toast/copy.svg" width="24" height="24" alt=""></button></div>
-                        <div class="sr-view__row"><strong>Contact person name:</strong><span id="sr-view-contact"></span><button class="sr-copy" type="button" aria-label="Copy contact name"><img src="icons/toast/copy.svg" width="24" height="24" alt=""></button></div>
-                        <div class="sr-view__row"><strong>Contact person phone number:</strong><span id="sr-view-phone"></span><button class="sr-copy" type="button" aria-label="Copy phone"><img src="icons/toast/copy.svg" width="24" height="24" alt=""></button></div>
+                    <div class="emp-kv">
+                        <div class="emp-kv__row"><strong class="emp-kv__label">ID:</strong><span class="emp-kv__value" id="sr-view-id"></span><button class="emp-copy" type="button" aria-label="Copy ID"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                        <div class="emp-kv__row"><strong class="emp-kv__label">Name:</strong><span class="emp-kv__value" id="sr-view-name"></span><button class="emp-copy" type="button" aria-label="Copy name"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                        <div class="emp-kv__row"><strong class="emp-kv__label">Street:</strong><span class="emp-kv__value" id="sr-view-street"></span><button class="emp-copy" type="button" aria-label="Copy street"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                        <div class="emp-kv__row"><strong class="emp-kv__label">Street additional:</strong><span class="emp-kv__value" id="sr-view-extra"></span><button class="emp-copy" type="button" aria-label="Copy street additional"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                        <div class="emp-kv__row"><strong class="emp-kv__label">City:</strong><span class="emp-kv__value" id="sr-view-city"></span><button class="emp-copy" type="button" aria-label="Copy city"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                        <div class="emp-kv__row"><strong class="emp-kv__label">State:</strong><span class="emp-kv__value" id="sr-view-state"></span><button class="emp-copy" type="button" aria-label="Copy state"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                        <div class="emp-kv__row"><strong class="emp-kv__label">Zip:</strong><span class="emp-kv__value" id="sr-view-zip"></span><button class="emp-copy" type="button" aria-label="Copy zip"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                        <div class="emp-kv__row"><strong class="emp-kv__label">Lat:</strong><span class="emp-kv__value" id="sr-view-lat"></span><button class="emp-copy" type="button" aria-label="Copy lat"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                        <div class="emp-kv__row"><strong class="emp-kv__label">Lng:</strong><span class="emp-kv__value" id="sr-view-lng"></span><button class="emp-copy" type="button" aria-label="Copy lng"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                        <div class="emp-kv__row"><strong class="emp-kv__label">Contact person name:</strong><span class="emp-kv__value" id="sr-view-contact"></span><button class="emp-copy" type="button" aria-label="Copy contact name"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                        <div class="emp-kv__row"><strong class="emp-kv__label">Contact person phone number:</strong><span class="emp-kv__value" id="sr-view-phone"></span><button class="emp-copy" type="button" aria-label="Copy phone"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="emp-overlay sr-overlay" id="sr-delete-overlay">
-        <div class="emp-mw emp-mw--sm sr-dialog sr-pop sr-pop--sm" role="dialog" aria-modal="true" aria-labelledby="sr-delete-title">
+    <div class="emp-overlay" id="sr-delete-overlay">
+        <div class="emp-mw emp-mw--sm emp-mw--confirm" role="dialog" aria-modal="true" aria-labelledby="sr-delete-title">
             <div class="emp-mw__head">
                 <h2 class="emp-mw__title" id="sr-delete-title">Delete</h2>
                 <button class="emp-mw__close" type="button" data-sr-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x-lg"></use></svg></button>
             </div>
-            <p class="sr-pop__text">Are you sure you want to delete “<span id="sr-delete-name"></span>”?</p>
+            <p class="emp-mw__text">Are you sure you want to delete “<span id="sr-delete-name"></span>”?</p>
             <div class="emp-mw__foot">
                 <button class="emp-btn emp-btn--outline emp-btn--lg" type="button" data-sr-close>Cancel</button>
                 <button class="emp-btn emp-btn--alarm emp-btn--lg" id="sr-delete-confirm" type="button">Delete</button>
@@ -570,7 +568,7 @@
     </div>
 
     <script src="js/toast.js?v=t2"></script>
-    <script src="js/empire.js?v=pick3"></script>
-    <script src="js/shippers.js?v=sr1"></script>
+    <script src="js/empire.js?v=ds3"></script>
+    <script src="js/shippers.js?v=ds1"></script>
 </body>
 </html>

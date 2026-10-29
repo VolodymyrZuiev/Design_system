@@ -183,6 +183,40 @@ Noto Sans. Стиль выбирается по месту в интерфейс
 9. Узкий или сложный элемент повышать до компонента. Повторяемый и стабильный — делать глобальным. Остальное оставлять в файле раздела.
 10. Не дублировать кнопку, инпут, таб, модалку или хедер «почти как в системе».
 
+## Инстансы: Design — мастер, страницы — копии
+
+Страница Design (`index.html`) — мастер всех глобальных компонентов, как главный компонент в Figma. Экраны CRM используют те же классы и ведут себя как его инстансы. Правка класса в `css/empire.css` или поведения в `js/empire.js` меняет компонент сразу на Design и на всех экранах.
+
+Правила:
+
+- Блок, который есть на двух экранах, — глобальный компонент `emp-*`. Его стили лежат в `css/empire.css`, поведение — в `js/empire.js`, образец — на Design.
+- CSS экрана (`css/warehouses.css`, `css/charges.css` и другие) содержит только раскладку: колонки таблицы, ширины полей формы, локальные блоки раздела. Цвет, шрифт, отступ, рамка и состояния глобального компонента в нём не переопределяются.
+- JS экрана содержит только данные и логику раздела. Часы, Show, action menu и копирование в View подключаются атрибутами и работают из `js/empire.js`.
+- Нетиповой вариант делается только по отдельному запросу. Он оформляется модификатором глобального компонента и показывается на Design.
+- Иконки компонентов лежат по назначению: `icons/action-menu/` (view, edit, delete, copy), `icons/modal/` (info).
+
+### Каталог глобальных компонентов CRM
+
+| Компонент | Классы | Design | Figma |
+|---|---|---|---|
+| Экран | `body.emp-app`, `emp-app__main` | все экраны | — |
+| Шапка страницы | `emp-head`, часы `data-emp-clock` (время Нью-Йорка) | `#page-header` | Header / Expedite |
+| CRM-таблица | `emp-table`, `__bar`, `__filters`, `__rows`, `__row`, `__cell`, `__cell--center`, `__wrap`, `__muted`, `__link`, `__money`, `__unset`, `__ghost`, `__pages` | `#crm-table` | Table |
+| Счётчик и Show | `emp-meta`, `emp-meta__rule`, `emp-show`, `emp-show__field`, `data-emp-show`, `data-emp-show-range` | `#crm-table` | Table |
+| Action menu | `emp-amenu`, `__hit`, `__dots`, `__list`, `__item`, `__item--green`, `__item--red` | `#action-menu` | `1298:14776`, items `1105:19858` |
+| Плашка статуса | `emp-pill--success`, `--alarm`, `--warning`, `--fill`; подпись `emp-hint` | `#pills` | Status pill |
+| Плюс и сортировка | `emp-plus`, `emp-sort`, `emp-sort--cell` | `#pills` | plus button, sort |
+| Табы в боксе | `emp-tabs__list--boxed`, `emp-tab`, `emp-tab__count` | `#tabs` | Tabs component |
+| Строки View | `emp-kv`, `emp-kv__row`, `emp-kv__label`, `emp-kv__value`, `emp-copy`, `emp-copy--title`, `data-copy-row` | `#view-rows` | View rows |
+| Форма в модалке | `emp-form`, `emp-form__row` | `#modal` | MW body |
+| Модальное окно | `emp-mw--sm/--md/--lg`, `--form`, `--fit`, `--confirm`, `emp-mw__icon`, `emp-mw__text`, `emp-mw__body.is-overflow` | `#modal` | `6040:23766` |
+
+CRM-таблица настраивается переменными на контейнере экрана: `--emp-cols` (колонки грида, последняя 40px под action menu), `--emp-row-h` (минимальная высота строки, по умолчанию 36px), `--emp-table-min` (минимальная ширина). Границы ячеек — inset-тень 1px `--table-line`, поэтому высота строки совпадает с Figma.
+
+Action menu по Figma: кнопка 40px, точки 3×3 с шагом 5px. Default — белая заливка и синие точки, Hover — `#eff4ff`, Pressed — `#1b68a9`, Active (меню открыто) — `#3c84c2` и белые точки, Disabled — серые точки. Список прижат к правому краю под кнопкой: рамка `#78a9d6`, скругление 4/0/4/4, тень системы. Пункт 28px, отступы 6/8, иконка 16, текст Noto Sans Display Medium 12. Открывается кликом, закрывается кликом снаружи, по пункту и по Escape. Вариант One icon — `emp-amenu__hit` с одной иконкой без списка.
+
+Модалка по Figma MW: шапка в одну строку — иконка 24 (`emp-mw__icon`), заголовок 24/32 SemiBold, крестик 32 с иконкой `#7b7b7b`. Оверлей модалки `z-index: 1100`, превью файла `#preview-overlay` — 1200, тосты — 1300. Подтверждение удаления — `emp-mw--sm emp-mw--confirm` с текстом `emp-mw__text`.
+
 ## Toasts
 
 Тост — это `emp-info emp-info--frame` нужного тона, вылетающий в стек. Карточку инфобокса не перерисовывать. Стек, движение и набор фраз живут в `css/toast.css` и `js/toast.js`. Вызов: `empToast(kind, data)`.
@@ -199,7 +233,7 @@ Noto Sans. Стиль выбирается по месту в интерфейс
 
 ### Копирование в View
 
-В каждой модалке View у каждой строки значения есть кнопка копирования. Иконка `action menu/copy`, 24×24. Её нет, пока курсор или фокус не на строке. Клик пишет текст значения в буфер и показывает тост `copied`. Это поведение по умолчанию для всех будущих View, не отдельная фича склада. Первая реализация — View warehouse.
+В каждой модалке View у каждой строки значения есть кнопка копирования `emp-copy`. Иконка `icons/action-menu/copy.svg`, 24×24. Её нет, пока курсор или фокус не на строке. Клик пишет текст `emp-kv__value` (или элемента `[data-copy]` внутри `[data-copy-row]`) в буфер и показывает тост `copied`. Обработчик один, в `js/empire.js`. Это поведение по умолчанию для всех View: Warehouses, Shippers, Charges, Blacklist.
 
 ### Каталог
 

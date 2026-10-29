@@ -51,7 +51,7 @@
     var nextId = 1;
 
     function menu() {
-        return '<div class="sr-menu"><button class="sr-menu__hit" type="button" aria-label="Actions"><img src="icons/warehouses/menu.svg" alt=""></button><span class="sr-act"><button type="button" data-act="view"><img src="icons/warehouses/view.svg" alt="" width="16" height="16">View</button><button type="button" data-act="update"><img src="icons/warehouses/edit.svg" alt="" width="16" height="16">Update</button><button class="sr-act__delete" type="button" data-act="delete"><img src="icons/warehouses/delete.svg" alt="" width="16" height="16">Delete</button></span></div>';
+        return '<div class="emp-amenu"><button class="emp-amenu__hit" type="button" aria-label="Actions" aria-expanded="false"><span class="emp-amenu__dots"></span></button><span class="emp-amenu__list"><button class="emp-amenu__item" type="button" data-act="view"><img src="icons/action-menu/view.svg" alt="" width="16" height="16">View</button><button class="emp-amenu__item" type="button" data-act="update"><img src="icons/action-menu/edit.svg" alt="" width="16" height="16">Update</button><button class="emp-amenu__item emp-amenu__item--red" type="button" data-act="delete"><img src="icons/action-menu/delete.svg" alt="" width="16" height="16">Delete</button></span></div>';
     }
 
     function esc(value) {
@@ -63,7 +63,7 @@
 
     function rowHtml(item) {
         var id = item.id || nextId++;
-        return '<div class="sr-row" role="row" data-id="' + id + '" data-country="' + esc(item.country) + '" data-city="' + esc(item.city) + '" data-state="' + esc(item.state) + '" data-zip="' + esc(item.zip) + '" data-email="' + esc(item.email) + '" data-contact="' + esc(item.contact) + '" data-phone="' + esc(item.phone) + '">' +
+        return '<div class="emp-table__row" role="row" data-id="' + id + '" data-country="' + esc(item.country) + '" data-city="' + esc(item.city) + '" data-state="' + esc(item.state) + '" data-zip="' + esc(item.zip) + '" data-email="' + esc(item.email) + '" data-contact="' + esc(item.contact) + '" data-phone="' + esc(item.phone) + '">' +
             '<span data-col="name">' + esc(item.name) + '</span>' +
             '<span data-col="location">' + esc(item.location) + '</span>' +
             '<span data-col="street">' + esc(item.street) + '</span>' +
@@ -78,28 +78,6 @@
     for (var i = 0; i < 20; i += 1) seed.push(patterns[i % patterns.length]);
     rows.innerHTML = seed.map(rowHtml).join("");
 
-    var clock = document.getElementById("sr-clock");
-    function paintClock() {
-        if (!clock) return;
-        var parts = new Intl.DateTimeFormat("en-US", {
-            timeZone: "America/New_York",
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true
-        }).formatToParts(new Date());
-        var hour = "";
-        var minute = "";
-        var day = "";
-        parts.forEach(function (part) {
-            if (part.type === "hour") hour = part.value;
-            if (part.type === "minute") minute = part.value;
-            if (part.type === "dayPeriod") day = part.value;
-        });
-        clock.textContent = hour + ":" + minute + " " + day;
-    }
-    paintClock();
-    setInterval(paintClock, 1000);
-
     var filters = document.querySelectorAll("[data-sr-filter]");
     var pageSizeValue = document.getElementById("sr-page-size-value");
     var pageRange = document.getElementById("sr-range");
@@ -112,7 +90,7 @@
         });
         var size = Number(pageSizeValue.value) || 20;
         var matched = [];
-        rows.querySelectorAll(".sr-row").forEach(function (row) {
+        rows.querySelectorAll(".emp-table__row").forEach(function (row) {
             var show = true;
             Object.keys(query).forEach(function (key) {
                 if (!query[key]) return;
@@ -154,17 +132,12 @@
     function field(name) {
         return form.elements[name];
     }
-    function closeMenus() {
-        document.querySelectorAll(".sr-menu.is-open").forEach(function (menuNode) {
-            menuNode.classList.remove("is-open");
-        });
-    }
     function closeAll() {
         [formOverlay, viewOverlay, deleteOverlay].forEach(function (overlay) {
             if (overlay) overlay.classList.remove("is-open");
         });
         editing = null;
-        closeMenus();
+        window.empCloseMenus();
     }
     function open(overlay) {
         closeAll();
@@ -295,7 +268,7 @@
         }
         var action = event.target.closest("[data-act]");
         if (action) {
-            var row = action.closest(".sr-row");
+            var row = action.closest(".emp-table__row");
             var kind = action.getAttribute("data-act");
             if (kind === "view") {
                 paintView(row);
@@ -319,39 +292,5 @@
         }
     });
 
-    var pageSize = document.getElementById("sr-page-size");
-    var pageSizeBtn = pageSize.querySelector(".emp-input__chevron-btn");
-    pageSize.addEventListener("click", function (event) {
-        var item = event.target.closest("[data-size]");
-        if (item) {
-            pageSizeValue.value = item.getAttribute("data-size");
-            pageSize.querySelectorAll(".emp-drop__item").forEach(function (entry) {
-                entry.classList.toggle("is-selected", entry === item);
-            });
-            pageSize.classList.remove("is-open");
-            pageSizeBtn.setAttribute("aria-expanded", "false");
-            filterRows();
-            return;
-        }
-        var openMenu = !pageSize.classList.contains("is-open");
-        pageSize.classList.toggle("is-open", openMenu);
-        pageSizeBtn.setAttribute("aria-expanded", openMenu ? "true" : "false");
-    });
-    document.addEventListener("click", function (event) {
-        if (!pageSize.contains(event.target)) {
-            pageSize.classList.remove("is-open");
-            pageSizeBtn.setAttribute("aria-expanded", "false");
-        }
-    });
-
-    document.querySelector(".sr-view").addEventListener("click", function (event) {
-        var button = event.target.closest(".sr-copy");
-        if (!button) return;
-        var value = button.parentNode.querySelector("span").textContent.trim();
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(value).then(function () {
-                if (window.empToast) window.empToast("copied");
-            });
-        }
-    });
+    pageSizeValue.addEventListener("change", filterRows);
 })();

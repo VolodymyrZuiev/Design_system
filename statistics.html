@@ -8,9 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@400;500;600&family=Noto+Sans:wdth,wght@87.5,700;100,400;100,500;100,600;100,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/empire.css?v=click36">
-    <link rel="stylesheet" href="css/header.css?v=h3">
-    <link rel="stylesheet" href="css/statistics.css?v=st1">
+    <link rel="stylesheet" href="css/empire.css?v=ds3">
+    <link rel="stylesheet" href="css/header.css?v=ds2">
+    <link rel="stylesheet" href="css/statistics.css?v=ds1">
     <link rel="stylesheet" href="css/toast.css?v=t2">
     <script>
         (function () {
@@ -21,7 +21,7 @@
         })();
     </script>
 </head>
-<body>
+<body class="emp-app">
 
     <svg class="emp-sprite" aria-hidden="true">
         <symbol id="i-person" viewBox="0 0 12 12"><path fill="currentColor" d="M1 12C1 12 0 12 0 11C0 10 1 7 6 7C11 7 12 10 12 11C12 12 11 12 11 12H1Z"/><path fill="currentColor" d="M6 6C7.65685 6 9 4.65685 9 3C9 1.34315 7.65685 0 6 0C4.34315 0 3 1.34315 3 3C3 4.65685 4.34315 6 6 6Z"/></symbol>
@@ -415,7 +415,7 @@
             </a>
         </div>
     </nav>
-    <div class="st">
+    <div class="emp-app__main st">
         <header class="emp-head">
             <div class="emp-head__start">
                 <h1 class="emp-head__title">Statistics dispatchers</h1>
@@ -441,7 +441,7 @@
                     <svg class="emp-head__clock-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-wh-globe"></use></svg>
                     <span>EST</span>
                     <span class="emp-head__rule"></span>
-                    <span id="st-clock">10:02 AM</span>
+                    <span id="st-clock" data-emp-clock>10:02 AM</span>
                 </div>
                 <span class="emp-head__bell" aria-label="Notifications">
                     <svg class="emp-head__bell-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-wh-bell"></use></svg>
@@ -465,7 +465,7 @@
                 <div class="emp-date__panel"></div>
             </div>
             <div class="st-grow"></div>
-            <div class="st-meta"><span>Showing <strong id="st-range">1-20</strong> of <strong id="st-total">670</strong> items.</span><span class="st-meta__rule"></span><div class="st-show"><span>Show</span><div class="st-show__field"><div class="emp-combo" id="st-page-size"><div class="emp-field emp-field--sm"><div class="emp-combo__anchor"><div class="emp-input"><input class="emp-input__control" id="st-page-size-value" data-st="page-size" type="text" value="20" readonly aria-label="Items per page"><button class="emp-input__chevron-btn" type="button" aria-label="Items per page" aria-expanded="false"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></button></div><div class="emp-drop"><button class="emp-drop__item is-selected" type="button" data-size="20">20</button><button class="emp-drop__item" type="button" data-size="40">40</button><button class="emp-drop__item" type="button" data-size="60">60</button><button class="emp-drop__item" type="button" data-size="80">80</button><button class="emp-drop__item" type="button" data-size="100">100</button><button class="emp-drop__item" type="button" data-size="120">120</button></div></div></div></div></div><span>items.</span></div></div>
+            <div class="emp-meta"><span>Showing <strong id="st-range" data-emp-show-range>1-20</strong> of <strong id="st-total">670</strong> items.</span><span class="emp-meta__rule"></span><div class="emp-show"><span>Show</span><div class="emp-show__field"><div class="emp-combo" id="st-page-size" data-emp-show><div class="emp-field emp-field--sm"><div class="emp-combo__anchor"><div class="emp-input"><input class="emp-input__control" id="st-page-size-value" data-st="page-size" type="text" value="20" readonly aria-label="Items per page"><button class="emp-input__chevron-btn" type="button" aria-label="Items per page" aria-expanded="false"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></button></div><div class="emp-drop"><button class="emp-drop__item is-selected" type="button" data-size="20">20</button><button class="emp-drop__item" type="button" data-size="40">40</button><button class="emp-drop__item" type="button" data-size="60">60</button><button class="emp-drop__item" type="button" data-size="80">80</button><button class="emp-drop__item" type="button" data-size="100">100</button><button class="emp-drop__item" type="button" data-size="120">120</button></div></div></div></div></div><span>items.</span></div></div>
             <div class="emp-field emp-field--sm st-bar__search">
                 <div class="emp-field__title"><span class="emp-field__label">Search</span></div>
                 <div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="search" placeholder="Search" data-st="search" aria-label="Search"></div>
@@ -614,7 +614,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
     <script src="js/toast.js?v=t2"></script>
-    <script src="js/empire.js?v=pick3"></script>
-    <script src="js/statistics.js?v=st1"></script>
+    <script src="js/empire.js?v=ds3"></script>
+    <script src="js/statistics.js?v=ds1"></script>
 </body>
 </html>

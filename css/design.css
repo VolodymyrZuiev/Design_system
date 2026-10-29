@@ -142,3 +142,10 @@
 @media (max-width: 991px) {
     .ds-index { position: static; }
 }
+
+.ds-table {
+    --emp-cols: minmax(0, 1fr) 260px 140px 140px 160px 40px;
+    --emp-row-h: 60px;
+}
+.ds-kv { max-width: 656px; }
+#page-header .emp-head { margin-top: var(--x8); }

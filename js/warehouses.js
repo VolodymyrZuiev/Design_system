@@ -1,26 +1,4 @@
 (function () {
-    var clock = document.getElementById("wh-clock");
-    function paintClock() {
-        if (!clock) return;
-        var parts = new Intl.DateTimeFormat("en-US", {
-            timeZone: "America/New_York",
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true
-        }).formatToParts(new Date());
-        var hour = "";
-        var minute = "";
-        var day = "";
-        parts.forEach(function (part) {
-            if (part.type === "hour") hour = part.value;
-            if (part.type === "minute") minute = part.value;
-            if (part.type === "dayPeriod") day = part.value;
-        });
-        clock.textContent = hour + ":" + minute + " " + day;
-    }
-    paintClock();
-    setInterval(paintClock, 1000);
-
     var inputs = document.querySelectorAll("[data-wh-filter]");
     inputs.forEach(function (input) {
         input.addEventListener("input", filterRows);
@@ -30,7 +8,7 @@
         inputs.forEach(function (input) {
             query[input.getAttribute("data-wh-filter")] = input.value.trim().toLowerCase();
         });
-        document.querySelectorAll(".wh-row").forEach(function (row) {
+        document.querySelectorAll(".emp-table__row").forEach(function (row) {
             var show = true;
             Object.keys(query).forEach(function (key) {
                 if (!query[key]) return;
@@ -69,9 +47,7 @@
     function open(overlay) {
         closeAll();
         overlay.classList.add("is-open");
-        document.querySelectorAll(".wh-menu.is-open").forEach(function (menu) {
-            menu.classList.remove("is-open");
-        });
+        window.empCloseMenus();
     }
     function paintNameState(showError) {
         var empty = !field("name").value.trim();
@@ -111,7 +87,7 @@
         row.setAttribute("data-empire", field("empire").checked ? "1" : "0");
     }
     function blankRow() {
-        var source = document.querySelector(".wh-row");
+        var source = document.querySelector(".emp-table__row");
         var row = source.cloneNode(true);
         row.hidden = false;
         ["name", "street", "city", "state", "zip", "contact", "phone"].forEach(function (key) {
@@ -123,7 +99,7 @@
         row.setAttribute("data-note", "");
         row.setAttribute("data-empire", "0");
         row.classList.remove("is-open");
-        var menu = row.querySelector(".wh-menu");
+        var menu = row.querySelector(".emp-amenu");
         if (menu) menu.classList.remove("is-open");
         return row;
     }
@@ -149,7 +125,7 @@
         }
         var row = editing || blankRow();
         readForm(row);
-        if (!editing) document.querySelector(".wh-rows").prepend(row);
+        if (!editing) document.querySelector(".emp-table__rows").prepend(row);
         filterRows();
         closeAll();
     });
@@ -171,7 +147,7 @@
         }
         var action = event.target.closest("[data-act]");
         if (action) {
-            var row = action.closest(".wh-row");
+            var row = action.closest(".emp-table__row");
             var kind = action.getAttribute("data-act");
             if (kind === "view") {
                 document.getElementById("wh-view-name").textContent = cell(row, "name") || "—";
@@ -204,68 +180,7 @@
         }
     });
 
-    var pageSize = document.getElementById("wh-page-size");
-    var pageSizeValue = document.getElementById("wh-page-size-value");
-    var pageRange = document.getElementById("wh-range");
-    var pageSizeBtn = pageSize.querySelector(".emp-input__chevron-btn");
-
-    function setPageSizeOpen(open) {
-        pageSize.classList.toggle("is-open", open);
-        pageSizeBtn.setAttribute("aria-expanded", open ? "true" : "false");
-    }
-
-    pageSize.addEventListener("click", function (event) {
-        var item = event.target.closest("[data-size]");
-        if (item) {
-            var size = item.getAttribute("data-size");
-            pageSizeValue.value = size;
-            pageRange.textContent = "1-" + size;
-            pageSize.querySelectorAll(".emp-drop__item").forEach(function (entry) {
-                entry.classList.toggle("is-selected", entry === item);
-            });
-            setPageSizeOpen(false);
-            return;
-        }
-        setPageSizeOpen(!pageSize.classList.contains("is-open"));
-    });
-
-    document.addEventListener("click", function (event) {
-        if (!pageSize.contains(event.target)) setPageSizeOpen(false);
-    });
-
-    document.querySelector(".wh-view").addEventListener("click", function (event) {
-        var button = event.target.closest(".wh-copy");
-        if (!button) return;
-        var value = button.parentNode.querySelector("span").textContent.trim();
-        function copied() { window.empToast("copied"); }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(value).then(copied, function () {
-                fallbackCopy(value);
-                copied();
-            });
-            return;
-        }
-        fallbackCopy(value);
-        copied();
-    });
-
-    function fallbackCopy(value) {
-        var area = document.createElement("textarea");
-        area.value = value;
-        area.setAttribute("readonly", "");
-        area.className = "emp-copy-sink";
-        document.body.appendChild(area);
-        area.select();
-        try { document.execCommand("copy"); } catch (error) { /* clipboard blocked */ }
-        area.remove();
-    }
-
     document.addEventListener("keydown", function (event) {
-        if (event.key !== "Escape") return;
-        if (pageSize.classList.contains("is-open")) {
-            setPageSizeOpen(false);
-            return;
-        }
-        closeAll();
+        if (event.key === "Escape") closeAll();
     });
 })();

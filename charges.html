@@ -8,9 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@400;500;600&family=Noto+Sans:wdth,wght@87.5,700;100,400;100,500;100,600;100,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/empire.css?v=click36">
-    <link rel="stylesheet" href="css/header.css?v=h3">
-    <link rel="stylesheet" href="css/charges.css?v=ch4">
+    <link rel="stylesheet" href="css/empire.css?v=ds3">
+    <link rel="stylesheet" href="css/header.css?v=ds2">
+    <link rel="stylesheet" href="css/charges.css?v=ds1">
     <link rel="stylesheet" href="css/toast.css?v=t2">
     <script>
         (function () {
@@ -21,7 +21,7 @@
         })();
     </script>
 </head>
-<body>
+<body class="emp-app">
 
     <svg class="emp-sprite" aria-hidden="true">
         <symbol id="i-person" viewBox="0 0 12 12"><path fill="currentColor" d="M1 12C1 12 0 12 0 11C0 10 1 7 6 7C11 7 12 10 12 11C12 12 11 12 11 12H1Z"/><path fill="currentColor" d="M6 6C7.65685 6 9 4.65685 9 3C9 1.34315 7.65685 0 6 0C4.34315 0 3 1.34315 3 3C3 4.65685 4.34315 6 6 6Z"/></symbol>
@@ -415,7 +415,7 @@
             </a>
         </div>
     </nav>
-    <div class="ch">
+    <div class="emp-app__main ch">
         <header class="emp-head">
             <div class="emp-head__start">
                 <h1 class="emp-head__title">Charges</h1>
@@ -441,7 +441,7 @@
                     <svg class="emp-head__clock-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-wh-globe"></use></svg>
                     <span>EST</span>
                     <span class="emp-head__rule"></span>
-                    <span id="ch-clock">10:02 AM</span>
+                    <span id="ch-clock" data-emp-clock>10:02 AM</span>
                 </div>
                 <span class="emp-head__bell" aria-label="Notifications">
                     <svg class="emp-head__bell-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-wh-bell"></use></svg>
@@ -453,8 +453,8 @@
                 </div>
             </div>
         </header>
-        <section class="ch-table" aria-label="Charges">
-            <div class="ch-bar">
+        <section class="emp-table ch-table" aria-label="Charges">
+            <div class="emp-table__bar">
                 <div class="ch-offices">
                     <div class="emp-field emp-field--sm">
                         <div class="emp-field__title"><span class="emp-field__label">Office</span></div>
@@ -465,22 +465,22 @@
                         <div class="emp-input"><input class="emp-input__control" type="text" placeholder="Select office" data-emp-options="MX1|MX2|MX3" data-ch-filter="hr" aria-label="HR office"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div>
                     </div>
                 </div>
-                <div class="ch-meta"><span>Showing <strong id="ch-range">1-10</strong> of <strong id="ch-total">670</strong> items.</span><span class="ch-meta__rule"></span><div class="ch-show"><span>Show</span><div class="ch-show__field"><div class="emp-combo" id="ch-page-size"><div class="emp-field emp-field--sm"><div class="emp-combo__anchor"><div class="emp-input"><input class="emp-input__control" id="ch-page-size-value" type="text" value="20" readonly aria-label="Items per page"><button class="emp-input__chevron-btn" type="button" aria-label="Items per page" aria-expanded="false"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></button></div><div class="emp-drop"><button class="emp-drop__item is-selected" type="button" data-size="20">20</button><button class="emp-drop__item" type="button" data-size="40">40</button><button class="emp-drop__item" type="button" data-size="60">60</button><button class="emp-drop__item" type="button" data-size="80">80</button><button class="emp-drop__item" type="button" data-size="100">100</button><button class="emp-drop__item" type="button" data-size="120">120</button></div></div></div></div></div><span>items.</span></div></div>
+                <div class="emp-meta"><span>Showing <strong id="ch-range" data-emp-show-range>1-10</strong> of <strong id="ch-total">670</strong> items.</span><span class="emp-meta__rule"></span><div class="emp-show"><span>Show</span><div class="emp-show__field"><div class="emp-combo" id="ch-page-size" data-emp-show><div class="emp-field emp-field--sm"><div class="emp-combo__anchor"><div class="emp-input"><input class="emp-input__control" id="ch-page-size-value" type="text" value="20" readonly aria-label="Items per page"><button class="emp-input__chevron-btn" type="button" aria-label="Items per page" aria-expanded="false"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></button></div><div class="emp-drop"><button class="emp-drop__item is-selected" type="button" data-size="20">20</button><button class="emp-drop__item" type="button" data-size="40">40</button><button class="emp-drop__item" type="button" data-size="60">60</button><button class="emp-drop__item" type="button" data-size="80">80</button><button class="emp-drop__item" type="button" data-size="100">100</button><button class="emp-drop__item" type="button" data-size="120">120</button></div></div></div></div></div><span>items.</span></div></div>
             </div>
-            <div class="ch-filters" role="search">
+            <div class="emp-table__filters" role="search">
                 <div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">Unit</span></div><div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="text" placeholder="Search" data-ch-filter="unit" aria-label="Unit"></div></div>
                 <div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">Driver / Owner</span></div><div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="text" placeholder="Search by name" data-ch-filter="who" aria-label="Driver / Owner"></div></div>
                 <div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">Report load</span></div><div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="text" placeholder="Search" data-ch-filter="report" aria-label="Report load"></div></div>
                 <div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">Deducted load</span></div><div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="text" placeholder="Search" data-ch-filter="deducted" aria-label="Deducted load"></div></div>
-                <div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">Date deducted payroll</span></div><div class="emp-date emp-date--sm" data-emp-date data-ch-date><button class="emp-date__field" type="button"><svg class="emp-date__icon" viewBox="0 0 18 18" aria-hidden="true"><use href="#i-calendar-fill"></use></svg><span class="emp-date__value is-empty">MM/DD/YYYY</span></button><div class="emp-date__panel"></div></div></div>
+                <div class="emp-date emp-date--sm" data-emp-date data-ch-date><span class="emp-date__label">Date deducted payroll<button class="emp-sort" type="button" data-ch-sort aria-label="Sort by date"><svg class="emp-date__sort" viewBox="0 0 7 12" aria-hidden="true"><use href="#i-sort"></use></svg></button></span><button class="emp-date__field" type="button"><svg class="emp-date__icon" viewBox="0 0 18 18" aria-hidden="true"><use href="#i-calendar-fill"></use></svg><span class="emp-date__value is-empty">MM/DD/YYYY</span></button><div class="emp-date__panel"></div></div>
                 <div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">Report category</span></div><div class="emp-input"><input class="emp-input__control" type="text" placeholder="Select category" data-emp-options="Application usage|Possible claim|Failed to provide constant updates|Non-standard issues" data-ch-filter="category" aria-label="Report category"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
                 <div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">Amount of deduction</span></div></div>
                 <div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">Status</span></div><div class="emp-input"><input class="emp-input__control" type="text" placeholder="Select status" data-emp-options="Charged|Deducted" data-ch-filter="status" aria-label="Status"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
                 <div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">Driver Support</span></div><div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="text" placeholder="Search" data-emp-options="Matthew Hyde" data-ch-filter="support" aria-label="Driver Support"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
-                <span></span>
+                <button class="emp-sort emp-sort--cell" type="button" data-ch-sort aria-label="Sort table"><svg viewBox="0 0 7 12" aria-hidden="true"><use href="#i-sort"></use></svg></button>
             </div>
-            <div class="ch-rows" id="ch-rows"></div>
-            <nav class="emp-pagination ch-pages" aria-label="Pages">
+            <div class="emp-table__rows" id="ch-rows"></div>
+            <nav class="emp-pagination emp-table__pages" aria-label="Pages">
                 <button class="emp-page__arrow is-inactive" type="button" aria-label="Back" disabled><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-chevron-left"></use></svg></button>
                 <button class="emp-page is-active" type="button">1</button>
                 <button class="emp-page" type="button">2</button>
@@ -497,29 +497,30 @@
         </section>
     </div>
 
-    <div class="emp-overlay ch-overlay" id="ch-view-overlay">
+    <div class="emp-overlay" id="ch-view-overlay">
         <div class="emp-mw emp-mw--md is-scroll ch-report" role="dialog" aria-modal="true" aria-labelledby="ch-view-title">
             <div class="emp-mw__head">
-                <h2 class="emp-mw__title" id="ch-view-title"><img src="icons/blacklist/info.svg" alt="" width="24" height="24"><span data-ch-dialog-title>Report</span></h2>
+                <img class="emp-mw__icon" src="icons/modal/info.svg" width="24" height="24" alt="">
+                <h2 class="emp-mw__title" id="ch-view-title" data-ch-dialog-title>Report</h2>
                 <button class="emp-mw__close" type="button" data-ch-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x-lg"></use></svg></button>
             </div>
             <div class="emp-mw__body">
                 <div class="emp-mw__slot">
                 <div class="ch-report__top">
                     <span class="ch-report__name" data-ch-name>Application usage</span>
-                    <span class="ch-pill ch-pill--deducted" data-ch-status>Deducted</span>
-                    <span class="ch-hint" data-ch-hint>Load isn't set</span>
+                    <span class="emp-pill emp-pill--alarm" data-ch-status>Deducted</span>
+                    <span class="emp-hint" data-ch-hint>Load isn't set</span>
                 </div>
-                <dl class="ch-kv">
-                    <div class="ch-kv__row"><dt>Date:</dt><dd data-ch-when>04/02/2026 07:42 AM</dd><button class="ch-copy" type="button" aria-label="Copy date"><img src="icons/toast/copy.svg" alt=""></button></div>
-                    <div class="ch-kv__row"><dt>PRO #:</dt><dd data-ch-pro>46697</dd><button class="ch-copy" type="button" aria-label="Copy PRO"><img src="icons/toast/copy.svg" alt=""></button></div>
-                    <div class="ch-kv__row"><dt>User:</dt><dd data-ch-user>Test Admin</dd><button class="ch-copy" type="button" aria-label="Copy user"><img src="icons/toast/copy.svg" alt=""></button></div>
-                    <div class="ch-kv__row"><dt>Driver:</dt><dd data-ch-driver>Winston Wolf</dd><button class="ch-copy" type="button" aria-label="Copy driver"><img src="icons/toast/copy.svg" alt=""></button></div>
-                    <div class="ch-kv__row"><dt>Unit:</dt><dd data-ch-unit>1609</dd><button class="ch-copy" type="button" aria-label="Copy unit"><img src="icons/toast/copy.svg" alt=""></button></div>
-                    <div class="ch-kv__row"><dt>Category:</dt><dd data-ch-category>Rudeness</dd><button class="ch-copy" type="button" aria-label="Copy category"><img src="icons/toast/copy.svg" alt=""></button></div>
-                    <div class="ch-kv__row"><dt>Sub-category:</dt><dd data-ch-sub>Impatience at PU/DEL</dd><button class="ch-copy" type="button" aria-label="Copy sub-category"><img src="icons/toast/copy.svg" alt=""></button></div>
-                    <div class="ch-kv__row"><dt>Note:</dt><dd data-ch-note>-</dd><button class="ch-copy" type="button" aria-label="Copy note"><img src="icons/toast/copy.svg" alt=""></button></div>
-                </dl>
+                <div class="emp-kv">
+                    <div class="emp-kv__row"><span class="emp-kv__label">Date:</span><span class="emp-kv__value" data-ch-when>04/02/2026 07:42 AM</span><button class="emp-copy" type="button" aria-label="Copy date"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                    <div class="emp-kv__row"><span class="emp-kv__label">PRO #:</span><span class="emp-kv__value" data-ch-pro>46697</span><button class="emp-copy" type="button" aria-label="Copy PRO"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                    <div class="emp-kv__row"><span class="emp-kv__label">User:</span><span class="emp-kv__value" data-ch-user>Test Admin</span><button class="emp-copy" type="button" aria-label="Copy user"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                    <div class="emp-kv__row"><span class="emp-kv__label">Driver:</span><span class="emp-kv__value" data-ch-driver>Winston Wolf</span><button class="emp-copy" type="button" aria-label="Copy driver"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                    <div class="emp-kv__row"><span class="emp-kv__label">Unit:</span><span class="emp-kv__value" data-ch-unit>1609</span><button class="emp-copy" type="button" aria-label="Copy unit"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                    <div class="emp-kv__row"><span class="emp-kv__label">Category:</span><span class="emp-kv__value" data-ch-category>Rudeness</span><button class="emp-copy" type="button" aria-label="Copy category"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                    <div class="emp-kv__row"><span class="emp-kv__label">Sub-category:</span><span class="emp-kv__value" data-ch-sub>Impatience at PU/DEL</span><button class="emp-copy" type="button" aria-label="Copy sub-category"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                    <div class="emp-kv__row"><span class="emp-kv__label">Note:</span><span class="emp-kv__value" data-ch-note>-</span><button class="emp-copy" type="button" aria-label="Copy note"><img src="icons/action-menu/copy.svg" width="24" height="24" alt=""></button></div>
+                </div>
                 <div class="emp-accordion">
                     <div class="emp-accordion__item is-open">
                         <button class="emp-accordion__trigger" type="button"><img class="emp-accordion__icon" src="icons/blacklist/phone.svg" alt="" width="16" height="16"><span class="emp-accordion__label"><span class="emp-accordion__title">Outcome call 1</span><svg class="emp-accordion__chevron" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-chevron-sm"></use></svg></span></button>
@@ -532,7 +533,7 @@
                                 <div class="emp-field__title"><span class="emp-field__label">Note</span></div>
                                 <textarea class="emp-input ch-note" id="ch-note" placeholder="Enter note"></textarea>
                             </div>
-                            <div class="emp-upload" data-emp-upload>
+                            <div class="emp-upload" id="ch-photos" data-emp-upload>
                                 <div class="emp-upload__head"><span class="emp-upload__label">Photos/Videos</span><span class="emp-upload__star">*</span></div>
                                 <div class="emp-upload__content">
                                     <div class="emp-upload__drop" tabindex="0">
@@ -564,22 +565,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="emp-accordion__item">
-                        <button class="emp-accordion__trigger" type="button"><svg class="emp-accordion__icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-folder"></use></svg><span class="emp-accordion__label"><span class="emp-accordion__title">Label</span><svg class="emp-accordion__chevron" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-chevron-sm"></use></svg></span></button>
-                        <div class="emp-accordion__panel"></div>
-                    </div>
-                    <div class="emp-accordion__item">
-                        <button class="emp-accordion__trigger" type="button"><svg class="emp-accordion__icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-folder"></use></svg><span class="emp-accordion__label"><span class="emp-accordion__title">Label</span><svg class="emp-accordion__chevron" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-chevron-sm"></use></svg></span></button>
-                        <div class="emp-accordion__panel"></div>
-                    </div>
-                    <div class="emp-accordion__item">
-                        <button class="emp-accordion__trigger" type="button"><svg class="emp-accordion__icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-folder"></use></svg><span class="emp-accordion__label"><span class="emp-accordion__title">Label</span><svg class="emp-accordion__chevron" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-chevron-sm"></use></svg></span></button>
-                        <div class="emp-accordion__panel"></div>
-                    </div>
-                    <div class="emp-accordion__item">
-                        <button class="emp-accordion__trigger" type="button"><svg class="emp-accordion__icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-folder"></use></svg><span class="emp-accordion__label"><span class="emp-accordion__title">Label</span><svg class="emp-accordion__chevron" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-chevron-sm"></use></svg></span></button>
-                        <div class="emp-accordion__panel"></div>
-                    </div>
                 </div>
                 </div>
             </div>
@@ -590,13 +575,13 @@
         </div>
     </div>
 
-    <div class="emp-overlay ch-overlay" id="ch-deduct-overlay">
-        <form class="emp-mw emp-mw--md ch-deduct" id="ch-deduct-form" role="dialog" aria-modal="true" aria-labelledby="ch-deduct-title">
+    <div class="emp-overlay" id="ch-deduct-overlay">
+        <form class="emp-mw emp-mw--md emp-mw--fit" id="ch-deduct-form" role="dialog" aria-modal="true" aria-labelledby="ch-deduct-title">
             <div class="emp-mw__head">
                 <h2 class="emp-mw__title" id="ch-deduct-title">Set Deducted Load</h2>
                 <button class="emp-mw__close" type="button" data-ch-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x-lg"></use></svg></button>
             </div>
-            <div class="emp-mw__body">
+            <div class="emp-mw__body is-overflow">
                 <div class="emp-field">
                     <div class="emp-field__title"><span class="emp-field__label">Load</span></div>
                     <div class="emp-input"><input class="emp-input__control" id="ch-load" type="text" value="All" data-emp-options="All|57632|34545|94985|82047|20439|64895|89060" aria-label="Load"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div>
@@ -609,13 +594,13 @@
         </form>
     </div>
 
-    <div class="emp-overlay ch-overlay" id="ch-delete-overlay">
-        <div class="emp-mw emp-mw--sm ch-pop" role="dialog" aria-modal="true" aria-labelledby="ch-delete-title">
+    <div class="emp-overlay" id="ch-delete-overlay">
+        <div class="emp-mw emp-mw--sm emp-mw--confirm" role="dialog" aria-modal="true" aria-labelledby="ch-delete-title">
             <div class="emp-mw__head">
                 <h2 class="emp-mw__title" id="ch-delete-title">Delete</h2>
                 <button class="emp-mw__close" type="button" data-ch-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x-lg"></use></svg></button>
             </div>
-            <p class="ch-pop__text">Are you sure you want to delete “<span id="ch-delete-name"></span>”?</p>
+            <p class="emp-mw__text">Are you sure you want to delete “<span id="ch-delete-name"></span>”?</p>
             <div class="emp-mw__foot">
                 <button class="emp-btn emp-btn--outline emp-btn--lg" type="button" data-ch-close>Cancel</button>
                 <button class="emp-btn emp-btn--alarm emp-btn--lg" id="ch-delete-confirm" type="button">Delete</button>
@@ -623,8 +608,48 @@
         </div>
     </div>
 
+    <div class="emp-overlay" id="preview-overlay">
+        <div class="emp-preview" role="dialog" aria-modal="true" aria-labelledby="preview-title" data-media="image" data-panel="inputs">
+            <div class="emp-mw__head"><h2 class="emp-mw__title" id="preview-title">Attached document</h2><button class="emp-mw__close" type="button" data-overlay-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x-lg"></use></svg></button></div>
+            <div class="emp-preview__body">
+                <div class="emp-preview__list" data-preview-list></div>
+                <div class="emp-preview__stage" data-for="doc">
+                    <div class="emp-preview__view" data-preview-view><div class="emp-preview__page"><img alt="" data-preview-sheet><iframe data-preview-pdf title="PDF" hidden></iframe></div></div>
+                    <div class="emp-preview__zoom"><button type="button" data-zoom="in" aria-label="Zoom in"><svg viewBox="0 0 24 24"><use href="#i-zoom-in"></use></svg></button><span data-zoom-label>100%</span><button type="button" data-zoom="out" aria-label="Zoom out"><svg viewBox="0 0 24 24"><use href="#i-zoom-out"></use></svg></button><button type="button" data-zoom="full" aria-label="Fullscreen"><svg viewBox="0 0 24 24"><use href="#i-fullscreen"></use></svg></button></div>
+                </div>
+                <div class="emp-preview__stage emp-preview__stage--video" data-for="video">
+                    <div class="emp-preview__screen">
+                        <video data-preview-video playsinline preload="metadata" poster="icons/upload/video.png" src="media/preview.mp4"></video>
+                        <button class="emp-preview__play" type="button" data-play aria-label="Play"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#i-play-lg"></use></svg></button>
+                        <div class="emp-preview__player">
+                            <div class="emp-preview__player-row"><button type="button" data-play aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-play"></use></svg></button><span data-time>0:00 / 0:00</span><span class="emp-preview__player-space"></span><button type="button" data-mute aria-label="Volume"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-volume"></use></svg></button><button type="button" data-full aria-label="Fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-expand"></use></svg></button><button type="button" data-more aria-label="More"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-dots"></use></svg></button></div>
+                            <div class="emp-preview__bar" data-seek><span class="emp-preview__bar-done" data-seek-done></span><span class="emp-preview__bar-rest"></span><span class="emp-preview__knob" data-knob></span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="emp-preview__stage emp-preview__stage--audio" data-for="audio">
+                    <img class="emp-preview__wave" src="icons/preview/soundwave.svg" width="187" height="187" alt="">
+                    <audio data-preview-audio preload="metadata" src="media/tone.wav"></audio>
+                    <div class="emp-preview__player">
+                        <div class="emp-preview__player-row"><button type="button" data-play aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-play"></use></svg></button><span data-time>0:00 / 0:00</span><span class="emp-preview__player-space"></span><button type="button" data-mute aria-label="Volume"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-volume"></use></svg></button><button type="button" data-full aria-label="Fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-expand"></use></svg></button><button type="button" data-more aria-label="More"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-dots"></use></svg></button></div>
+                        <div class="emp-preview__bar" data-seek><span class="emp-preview__bar-done" data-seek-done></span><span class="emp-preview__bar-rest"></span><span class="emp-preview__knob" data-knob></span></div>
+                    </div>
+                </div>
+                <div class="emp-preview__stage emp-preview__stage--empty" data-for="empty"><svg class="emp-preview__ask" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-question"></use></svg><p>No files found</p></div>
+                <aside class="emp-preview__side">
+                    <div class="emp-preview__inputs">
+                        <label class="emp-preview__field">Attachment type<span class="emp-preview__box" data-preview-type>BOL</span></label>
+                        <label class="emp-preview__field">Description<textarea data-preview-note rows="4"></textarea></label>
+                    </div>
+                    <dl class="emp-preview__info"><dt>File name:</dt><dd data-meta="name"></dd><dt>Attachment type:</dt><dd data-meta="type"></dd><dt>Upload date:</dt><dd data-meta="date"></dd><dt>Author:</dt><dd data-meta="author"></dd><dt>Description:</dt><dd data-meta="note"></dd></dl>
+                    <div class="emp-preview__meta"><p>Upload date:</p><strong data-meta="date2"></strong><p>Author:</p><strong data-meta="author2"></strong></div>
+                </aside>
+            </div>
+            <div class="emp-mw__foot"><button class="emp-btn emp-btn--outline emp-btn--lg" type="button" data-overlay-close>Cancel</button><button class="emp-btn emp-btn--outline emp-btn--lg" type="button"><svg class="emp-btn__glyph" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M0.5 9.90002C0.776142 9.90002 1 10.1239 1 10.4V12.9C1 13.4523 1.44772 13.9 2 13.9H14C14.5523 13.9 15 13.4523 15 12.9V10.4C15 10.1239 15.2239 9.90002 15.5 9.90002C15.7761 9.90002 16 10.1239 16 10.4V12.9C16 14.0046 15.1046 14.9 14 14.9H2C0.895431 14.9 0 14.0046 0 12.9V10.4C0 10.1239 0.223858 9.90002 0.5 9.90002Z"/><path fill="currentColor" d="M7.64645 1.14645C7.84171 0.951184 8.15829 0.951184 8.35355 1.14645L11.3536 4.14645C11.5488 4.34171 11.5488 4.65829 11.3536 4.85355C11.1583 5.04882 10.8417 5.04882 10.6464 4.85355L8.5 2.70711V11.5C8.5 11.7761 8.27614 12 8 12C7.72386 12 7.5 11.7761 7.5 11.5V2.70711L5.35355 4.85355C5.15829 5.04882 4.84171 5.04882 4.64645 4.85355C4.45118 4.65829 4.45118 4.34171 4.64645 4.14645L7.64645 1.14645Z"/></svg>Upload</button><button class="emp-btn emp-btn--primary emp-btn--lg emp-mw__submit" type="button">Submit</button></div>
+        </div>
+    </div>
     <script src="js/toast.js?v=t2"></script>
-    <script src="js/empire.js?v=pick3"></script>
-    <script src="js/charges.js?v=ch3"></script>
+    <script src="js/empire.js?v=ds3"></script>
+    <script src="js/charges.js?v=ds1"></script>
 </body>
 </html>

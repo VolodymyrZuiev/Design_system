@@ -1,4 +1,110 @@
 (function () {
+    var clocks = document.querySelectorAll("[data-emp-clock]");
+    function paintClocks() {
+        if (!clocks.length) return;
+        var parts = new Intl.DateTimeFormat("en-US", {
+            timeZone: "America/New_York",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true
+        }).formatToParts(new Date());
+        var read = {};
+        parts.forEach(function (part) { read[part.type] = part.value; });
+        var text = read.hour + ":" + read.minute + " " + read.dayPeriod;
+        clocks.forEach(function (node) { node.textContent = text; });
+    }
+    paintClocks();
+    if (clocks.length) setInterval(paintClocks, 30000);
+
+    function setShowOpen(combo, open) {
+        combo.classList.toggle("is-open", open);
+        var button = combo.querySelector(".emp-input__chevron-btn");
+        if (button) button.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+    document.querySelectorAll("[data-emp-show]").forEach(function (combo) {
+        var input = combo.querySelector(".emp-input__control");
+        combo.addEventListener("click", function (event) {
+            var item = event.target.closest("[data-size]");
+            if (!item) {
+                setShowOpen(combo, !combo.classList.contains("is-open"));
+                return;
+            }
+            var size = item.getAttribute("data-size");
+            input.value = size;
+            combo.querySelectorAll(".emp-drop__item").forEach(function (entry) {
+                entry.classList.toggle("is-selected", entry === item);
+            });
+            var meta = combo.closest(".emp-meta");
+            var range = meta && meta.querySelector("[data-emp-show-range]");
+            if (range) range.textContent = "1-" + size;
+            setShowOpen(combo, false);
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+    });
+
+    function closeMenus(except) {
+        document.querySelectorAll(".emp-amenu.is-open").forEach(function (menu) {
+            if (menu === except || !menu.querySelector(".emp-amenu__list")) return;
+            menu.classList.remove("is-open");
+            var hit = menu.querySelector(".emp-amenu__hit");
+            if (hit) hit.setAttribute("aria-expanded", "false");
+        });
+    }
+    window.empCloseMenus = function () { closeMenus(null); };
+
+    document.addEventListener("click", function (event) {
+        var hit = event.target.closest(".emp-amenu__hit");
+        var menu = hit && hit.closest(".emp-amenu");
+        if (menu && menu.querySelector(".emp-amenu__list")) {
+            var open = !menu.classList.contains("is-open");
+            closeMenus(menu);
+            menu.classList.toggle("is-open", open);
+            hit.setAttribute("aria-expanded", open ? "true" : "false");
+        } else if (!event.target.closest(".emp-amenu__list") || event.target.closest(".emp-amenu__item")) {
+            closeMenus(null);
+        }
+        document.querySelectorAll("[data-emp-show].is-open").forEach(function (combo) {
+            if (!combo.contains(event.target)) setShowOpen(combo, false);
+        });
+
+        var copy = event.target.closest(".emp-copy");
+        if (copy) {
+            var holder = copy.closest(".emp-kv__row, [data-copy-row]");
+            var source = holder && holder.querySelector(".emp-kv__value, [data-copy]");
+            if (source) copyText(source.textContent.trim());
+        }
+    });
+    document.addEventListener("keydown", function (event) {
+        if (event.key !== "Escape") return;
+        closeMenus(null);
+        document.querySelectorAll("[data-emp-show].is-open").forEach(function (combo) { setShowOpen(combo, false); });
+    });
+
+    function copied() { if (window.empToast) window.empToast("copied"); }
+    function fallbackCopy(value) {
+        var area = document.createElement("textarea");
+        area.value = value;
+        area.setAttribute("readonly", "");
+        area.className = "emp-copy-sink";
+        document.body.appendChild(area);
+        area.select();
+        try { document.execCommand("copy"); } catch (error) { /* clipboard blocked */ }
+        area.remove();
+    }
+    function copyText(value) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(value).then(copied, function () {
+                fallbackCopy(value);
+                copied();
+            });
+            return;
+        }
+        fallbackCopy(value);
+        copied();
+    }
+})();
+
+(function () {
     var root = document.documentElement;
     var themeInput = document.getElementById("theme-toggle");
     var themeLabel = document.getElementById("theme-label");
@@ -133,6 +239,7 @@
                 '</div>';
             item.querySelector(".emp-file__name").textContent = file.name;
             item.querySelector(".emp-file__act--open").addEventListener("click", function (event) {
+                if (document.querySelector(".emp-preview")) return;
                 event.stopPropagation();
                 if (url) window.open(url, "_blank");
             });
@@ -945,6 +1052,12 @@
             openModal(button.getAttribute("data-mw"), button.getAttribute("data-mw-scroll") === "1");
         });
     });
+    document.querySelectorAll("[data-overlay-open]").forEach(function (button) {
+        button.addEventListener("click", function () {
+            var target = document.getElementById(button.getAttribute("data-overlay-open"));
+            if (target) openOverlay(target);
+        });
+    });
 
     var previewFiles = [
         { id: "image", name: "photo.jpeg", kind: "Attachment type", type: "BOL", note: "photo of the BOL", date: "02/12/2025", author: "Charles Gascoigne", media: "image", icon: "i-file-image", src: "icons/upload/photo.jpeg.png" },
@@ -1158,7 +1271,7 @@
         var nameNode = card.querySelector(".emp-file__name");
         if (!nameNode) return;
         var name = nameNode.textContent.trim();
-        var id = name === "photo.jpeg" ? "image" : name === "BOL.pdf" ? "pdf" : name === "VID_123_45.mp4" ? "video" : name === "Record.mp3" ? "audio" : "";
+        var id = name === "photo.jpeg" || /\.(png|jpe?g|gif|webp)$/i.test(name) ? "image" : name === "BOL.pdf" || /\.pdf$/i.test(name) ? "pdf" : name === "VID_123_45.mp4" || /\.(mp4|mov|webm)$/i.test(name) ? "video" : name === "Record.mp3" || /\.(mp3|wav|m4a)$/i.test(name) ? "audio" : /\.(docx?|rtf|txt)$/i.test(name) ? "doc" : /\.(xlsx?|csv)$/i.test(name) ? "xls" : "";
         if (id) openPreview(id, "inputs");
     });
     var sheetImg = previewRoot && previewRoot.querySelector("[data-preview-sheet]");

@@ -52,21 +52,7 @@
 .emp-head__field .emp-field,
 .emp-head__field > .emp-combo { width: 100%; min-width: 0; max-width: 100%; }
 
-.emp-head .emp-btn__label,
-.wh-bar .emp-btn__label { flex: 0 0 auto; }
-
-.emp-head .emp-btn__glyph svg,
-.wh-bar .emp-btn__glyph svg {
-    display: block;
-    width: 16px;
-    height: 16px;
-}
-
-.emp-head .emp-btn__glyph svg.emp-icon--person,
-.wh-bar .emp-btn__glyph svg.emp-icon--person {
-    width: 12px;
-    height: 12px;
-}
+.emp-head .emp-btn__label { flex: 0 0 auto; }
 
 .emp-head__clock {
     gap: var(--x3);

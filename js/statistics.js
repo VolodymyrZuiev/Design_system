@@ -509,16 +509,6 @@
         });
     }
 
-    function paintClock() {
-        var node = document.getElementById("st-clock");
-        if (!node) return;
-        node.textContent = new Date().toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit",
-            timeZone: "America/New_York"
-        });
-    }
-
     var dateValue = document.querySelector("[data-st-date] .emp-date__value");
     if (dateValue) {
         dateValue.textContent = "07/18/2024 - 07/18/2024";
@@ -547,34 +537,8 @@
         new MutationObserver(render).observe(dateValue, { childList: true, characterData: true, subtree: true });
     }
 
-    var pageSize = document.getElementById("st-page-size");
-    if (pageSize) {
-        var pageSizeBtn = pageSize.querySelector(".emp-input__chevron-btn");
-        pageSize.addEventListener("click", function (event) {
-            var item = event.target.closest("[data-size]");
-            if (item) {
-                document.getElementById("st-page-size-value").value = item.getAttribute("data-size");
-                pageSize.querySelectorAll(".emp-drop__item").forEach(function (entry) {
-                    entry.classList.toggle("is-selected", entry === item);
-                });
-                pageSize.classList.remove("is-open");
-                pageSizeBtn.setAttribute("aria-expanded", "false");
-                render();
-                return;
-            }
-            var open = !pageSize.classList.contains("is-open");
-            pageSize.classList.toggle("is-open", open);
-            pageSizeBtn.setAttribute("aria-expanded", open ? "true" : "false");
-        });
-        document.addEventListener("click", function (event) {
-            if (!pageSize.contains(event.target)) {
-                pageSize.classList.remove("is-open");
-                pageSizeBtn.setAttribute("aria-expanded", "false");
-            }
-        });
-    }
+    var pageSizeValue = document.getElementById("st-page-size-value");
+    if (pageSizeValue) pageSizeValue.addEventListener("change", render);
 
-    paintClock();
-    setInterval(paintClock, 30000);
     render();
 })();

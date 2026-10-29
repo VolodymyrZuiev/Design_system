@@ -1,32 +1,6 @@
-/* Statistics dispatchers layout. Component chrome stays in empire.css. */
+/* Statistics dispatchers layout. Components live in empire.css. */
 
-body {
-    display: flex;
-    align-items: stretch;
-    min-height: 100vh;
-}
-
-.emp-navbar {
-    position: relative;
-    top: auto;
-    left: auto;
-    z-index: 1;
-    height: auto;
-    min-height: 100vh;
-    align-self: stretch;
-    overflow: visible;
-    flex: 0 0 var(--x32);
-}
-
-.st {
-    flex: 1 1 auto;
-    min-width: 0;
-    min-height: 100vh;
-    padding: var(--x12);
-    display: flex;
-    flex-direction: column;
-    gap: var(--x12);
-}
+.st { gap: var(--x12); }
 
 .st-bar {
     display: flex;
@@ -46,30 +20,6 @@ body {
 .st-bar__date .emp-date { width: 100%; }
 
 .st-grow { flex: 1 1 auto; min-width: var(--x8); }
-
-.st-meta {
-    display: flex;
-    align-items: center;
-    gap: var(--x6);
-    margin: 0;
-    color: var(--text);
-    font-family: "Noto Sans Display", "Noto Sans", sans-serif;
-    font-size: var(--x6);
-    line-height: var(--x8);
-    font-weight: 400;
-    white-space: nowrap;
-}
-
-.st-meta strong { font-weight: 600; }
-.st-meta__rule { width: 1px; height: 25px; background: var(--border-strong); }
-
-.st-show { display: flex; align-items: center; gap: var(--x2); position: relative; z-index: 4; }
-.st-show__field { width: 72px; flex: 0 0 72px; }
-.st-show .emp-combo,
-.st-show .emp-field,
-.st-show .emp-combo__anchor { width: 100%; }
-.st-show .emp-drop__item { justify-content: center; }
-.st-show .emp-drop__item.is-selected { background: var(--drop-hover); }
 
 .st-top,
 .st-split {
