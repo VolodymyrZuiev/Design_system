@@ -2280,7 +2280,8 @@ body.emp-app {
     padding-right: 8px;
 }
 .emp-preview[data-media="empty"] .emp-preview__list { overflow: hidden; }
-button.emp-file { padding: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+button.emp-file,
+.emp-preview .emp-file { padding: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
 .emp-preview .emp-file.is-selected { border-color: #1e71b8; box-shadow: 0 0 0 1px #1e71b8; }
 .emp-preview__empty {
     display: flex;

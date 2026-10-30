@@ -201,6 +201,15 @@
     var mixed = document.getElementById("check-mixed");
     if (mixed) mixed.indeterminate = true;
 
+    function fileActions() {
+        return '<div class="emp-file__mid"><button class="emp-file__act emp-file__act--open" type="button" aria-label="Open"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-file-open"></use></svg></button></div>' +
+            '<div class="emp-file__bot">' +
+                '<button class="emp-file__act emp-file__act--delete" type="button" aria-label="Delete"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-trash"></use></svg></button>' +
+                '<button class="emp-file__act emp-file__act--download" type="button" aria-label="Download"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-download"></use></svg></button>' +
+                '<button class="emp-file__act" type="button" aria-label="More"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-dots"></use></svg></button>' +
+            '</div>';
+    }
+
     document.querySelectorAll("[data-emp-upload]").forEach(function (zone) {
         var drop = zone.querySelector(".emp-upload__drop");
         var input = zone.querySelector(".emp-upload__file");
@@ -230,12 +239,7 @@
                         '<span class="emp-file__line"><svg class="emp-file__type" viewBox="' + (iconFor(file) === "i-file-rich" ? "0 0 80 80" : "0 0 12 12") + '" aria-hidden="true"><use href="#' + iconFor(file) + '"></use></svg><span class="emp-file__name"></span></span>' +
                         '<span class="emp-file__kind">Attachment type</span>' +
                     '</div>' +
-                    '<div class="emp-file__mid"><button class="emp-file__act emp-file__act--open" type="button" aria-label="Open"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-file-open"></use></svg></button></div>' +
-                    '<div class="emp-file__bot">' +
-                        '<button class="emp-file__act emp-file__act--delete" type="button" aria-label="Delete"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-trash"></use></svg></button>' +
-                        '<button class="emp-file__act emp-file__act--download" type="button" aria-label="Download"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-download"></use></svg></button>' +
-                        '<button class="emp-file__act" type="button" aria-label="More"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-dots"></use></svg></button>' +
-                    '</div>' +
+                    fileActions() +
                 '</div>';
             item.querySelector(".emp-file__name").textContent = file.name;
             item.querySelector(".emp-file__act--open").addEventListener("click", function (event) {
@@ -280,12 +284,7 @@
                         '<span class="emp-file__line"><svg class="emp-file__type" viewBox="0 0 12 12" aria-hidden="true"><use href="#' + sample.icon + '"></use></svg><span class="emp-file__name"></span></span>' +
                         '<span class="emp-file__kind">Attachment type</span>' +
                     '</div>' +
-                    '<div class="emp-file__mid"><button class="emp-file__act emp-file__act--open" type="button" aria-label="Open"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-file-open"></use></svg></button></div>' +
-                    '<div class="emp-file__bot">' +
-                        '<button class="emp-file__act emp-file__act--delete" type="button" aria-label="Delete"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-trash"></use></svg></button>' +
-                        '<button class="emp-file__act" type="button" aria-label="Download"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-download"></use></svg></button>' +
-                        '<button class="emp-file__act" type="button" aria-label="More"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-dots"></use></svg></button>' +
-                    '</div>' +
+                    fileActions() +
                 '</div>';
             item.querySelector(".emp-file__name").textContent = sample.name;
             item.querySelector(".emp-file__act--delete").addEventListener("click", function (event) {
@@ -1088,9 +1087,11 @@
             previewList.innerHTML = '<div class="emp-file emp-preview__empty"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-folder"></use></svg><span>No files found</span></div>';
         } else {
             previewList.innerHTML = previewFiles.map(function (item) {
-                return '<button class="emp-file' + (item.pdf ? " emp-file--pdf" : "") + (file && item.id === file.id ? " is-selected" : "") + '" type="button" data-file="' + item.id + '">' +
+                return '<article class="emp-file' + (item.pdf ? " emp-file--pdf" : "") + (file && item.id === file.id ? " is-selected" : "") + '" tabindex="0" data-file="' + item.id + '">' +
                     '<img class="emp-file__img" src="' + item.src + '" alt="">' +
-                    '<span class="emp-file__shade"><span class="emp-file__top"><span class="emp-file__line"><svg class="emp-file__type" viewBox="0 0 12 12" aria-hidden="true"><use href="#' + item.icon + '"></use></svg><span class="emp-file__name">' + item.name + '</span></span><span class="emp-file__kind">' + item.kind + '</span></span></span></button>';
+                    '<div class="emp-file__shade"><div class="emp-file__top"><span class="emp-file__line"><svg class="emp-file__type" viewBox="0 0 12 12" aria-hidden="true"><use href="#' + item.icon + '"></use></svg><span class="emp-file__name">' + item.name + '</span></span><span class="emp-file__kind">' + item.kind + '</span></div>' +
+                    fileActions() +
+                    '</div></article>';
             }).join("");
         }
         var sheet = previewRoot.querySelector("[data-preview-sheet]");
@@ -1257,10 +1258,49 @@
         });
     });
     if (previewList) {
+        function previewIdFrom(card) {
+            return card.getAttribute("data-file");
+        }
+        function selectPreview(card) {
+            paintPreview(previewIdFrom(card), previewRoot.getAttribute("data-panel"));
+        }
         previewList.addEventListener("click", function (event) {
             var card = event.target.closest("[data-file]");
             if (!card) return;
-            paintPreview(card.getAttribute("data-file"), previewRoot.getAttribute("data-panel"));
+            var act = event.target.closest(".emp-file__act");
+            if (!act) {
+                selectPreview(card);
+                return;
+            }
+            event.stopPropagation();
+            var id = previewIdFrom(card);
+            if (act.classList.contains("emp-file__act--open")) {
+                selectPreview(card);
+                return;
+            }
+            if (act.classList.contains("emp-file__act--download")) {
+                var item = previewById(id);
+                var link = document.createElement("a");
+                link.href = item.src;
+                link.download = item.name;
+                link.click();
+                return;
+            }
+            if (act.classList.contains("emp-file__act--delete")) {
+                var selected = previewList.querySelector(".emp-file.is-selected");
+                var selectedId = selected ? selected.getAttribute("data-file") : "";
+                previewFiles = previewFiles.filter(function (entry) { return entry.id !== id; });
+                var next = selectedId === id ? (previewFiles[0] ? previewFiles[0].id : "empty") : (selectedId || "empty");
+                paintPreview(next, previewRoot.getAttribute("data-panel"));
+            }
+        });
+        previewList.addEventListener("keydown", function (event) {
+            if (event.key !== "Enter" && event.key !== " ") return;
+            if (event.target.closest(".emp-file__act")) return;
+            var card = event.target.closest("[data-file]");
+            if (!card || event.target !== card) return;
+            event.preventDefault();
+            selectPreview(card);
         });
     }
     if (previewRoot) document.addEventListener("click", function (event) {
