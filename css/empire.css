@@ -691,6 +691,9 @@ textarea { font-family: inherit; }
     box-shadow: none;
 }
 
+.emp-btn:hover,
+.emp-btn:focus,
+.emp-btn:active { text-decoration: none; }
 .emp-btn:focus { outline: none; }
 .emp-btn:focus-visible { box-shadow: 0 0 0 2px var(--primary-soft); }
 
