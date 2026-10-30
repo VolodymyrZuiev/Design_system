@@ -204,7 +204,7 @@ Noto Sans. Стиль выбирается по месту в интерфейс
 | CRM-таблица | `emp-table`, `__bar`, `__filters`, `__rows`, `__row`, `__cell`, `__cell--center`, `__wrap`, `__muted`, `__link`, `__money`, `__unset`, `__ghost`, `__pages` | `#crm-table` | Table |
 | Счётчик и Show | `emp-meta`, `emp-meta__rule`, `emp-show`, `emp-show__field`, `data-emp-show`, `data-emp-show-range` | `#crm-table` | Table |
 | Action menu | `emp-amenu`, `__hit`, `__dots`, `__list`, `__item`, `__item--green`, `__item--red` | `#action-menu` | `1298:14776`, items `1105:19858` |
-| Плашка статуса | `emp-pill--success`, `--alarm`, `--warning`, `--fill`; подпись `emp-hint` | `#pills` | Status pill |
+| Плашка статуса | `emp-pill--success`, `--alarm`, `--warning`, `--otr`, `--direct`, `--fill`; подпись `emp-hint` | `#pills` | Status pill / select-chips |
 | Плюс и сортировка | `emp-plus`, `emp-sort`, `emp-sort--cell` | `#pills` | plus button, sort |
 | Табы в боксе | `emp-tabs__list--boxed`, `emp-tab`, `emp-tab__count` | `#tabs` | Tabs component |
 | Строки View | `emp-kv`, `emp-kv__row`, `emp-kv__label`, `emp-kv__value`, `emp-copy`, `emp-copy--title`, `data-copy-row` | `#view-rows` | View rows |

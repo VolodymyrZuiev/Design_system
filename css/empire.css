@@ -269,6 +269,8 @@
     --pill-success: #45a149;
     --pill-alarm: #d73925;
     --pill-warning: #ce820e;
+    --pill-otr: #ee9911;
+    --pill-direct: #743ea5;
     --pill-fill-success: #45a149;
     --pill-fill-success-border: #327933;
     --pill-fill-text: #ffffff;
@@ -503,6 +505,8 @@
     --pill-success: #62bc67;
     --pill-alarm: #e26e5d;
     --pill-warning: #f1ab34;
+    --pill-otr: #f1ab34;
+    --pill-direct: #ae8bcc;
     --pill-fill-success: #45a149;
     --pill-fill-success-border: #327933;
     --pill-fill-text: #ffffff;
@@ -1881,7 +1885,7 @@ body.emp-app {
     border-top-left-radius: var(--x3);
     border-bottom-left-radius: var(--x3);
 }
-.emp-table__row:hover > :where(:not(.emp-amenu)) { background: var(--surface-muted); }
+.emp-table__row:hover:not(:has(.emp-amenu:hover)) > :where(:not(.emp-amenu)) { background: var(--surface-muted); }
 .emp-table__row > .emp-table__cell {
     display: flex;
     flex-direction: column;
@@ -2021,6 +2025,8 @@ body.emp-app {
 .emp-pill--success { color: var(--pill-success); }
 .emp-pill--alarm { color: var(--pill-alarm); }
 .emp-pill--warning { color: var(--pill-warning); }
+.emp-pill--otr { color: var(--pill-otr); }
+.emp-pill--direct { color: var(--pill-direct); }
 .emp-pill--fill { border-color: var(--pill-fill-success-border); background: var(--pill-fill-success); color: var(--pill-fill-text); }
 
 .emp-plus {

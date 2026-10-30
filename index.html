@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@400;500;600&family=Noto+Sans:wdth,wght@87.5,700;100,400;100,500;100,600;100,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/empire.css?v=ds3">
+    <link rel="stylesheet" href="css/empire.css?v=ds4">
     <link rel="stylesheet" href="css/header.css?v=ds2">
     <link rel="stylesheet" href="css/toast.css?v=t2">
     <link rel="stylesheet" href="css/design.css?v=ds2">
@@ -314,7 +314,7 @@
                 </span>
                 <span class="emp-navitem__label">Shippers receivers</span>
             </a>
-            <a hidden class="emp-navitem" href="#">
+            <a class="emp-navitem" href="loads.html">
                 <span class="emp-navitem__icon">
                     <svg class="emp-navitem__glyph" viewBox="0 0 24 24"><use href="#nav-loads"></use></svg>
                 </span>
@@ -344,7 +344,7 @@
                 </span>
                 <span class="emp-navitem__label">Users</span>
             </a>
-            <a hidden class="emp-navitem" href="#">
+            <a class="emp-navitem" href="candidates.html">
                 <span class="emp-navitem__icon">
                     <svg class="emp-navitem__glyph" viewBox="0 0 24 24"><use href="#nav-candidates"></use></svg>
                 </span>
@@ -870,6 +870,8 @@
                         <span class="emp-pill emp-pill--success">Charged</span>
                         <span class="emp-pill emp-pill--alarm">Deducted</span>
                         <span class="emp-pill emp-pill--warning">In progress</span>
+                        <span class="emp-pill emp-pill--otr">OTR (received)</span>
+                        <span class="emp-pill emp-pill--direct">Direct</span>
                         <span class="emp-pill emp-pill--fill">Active</span>
                         <span class="emp-hint">Load isn't set</span>
                         <button class="emp-plus" type="button" aria-label="Add"><svg class="emp-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-plus"></use></svg></button>
